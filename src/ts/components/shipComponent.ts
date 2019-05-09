@@ -9,7 +9,7 @@ export enum Technology {
     SuperMaterials = "S",
     PsiTech = "P",
     EnergyTransformation = "X",
-    ComputerTech = "C"
+    ComputerTech = "C",
 }
 
 export abstract class ShipComponent {

@@ -1,0 +1,69 @@
+import { ShipComponent, Technology } from "./shipComponent";
+
+export class PowerPlantComponent extends ShipComponent {
+    public get powerProduced(): number {
+        return this._powerProduced;
+    }
+
+    public get costPerHullPoint(): number {
+        return this._costPerHullPoint;
+    }
+
+    public get minimumSize(): number {
+        return this._minimumSize;
+    }
+
+    public get fuelCost(): number | null {
+        if (this._fuelCost) {
+            return this._fuelCost;
+        }
+
+        return null;
+    }
+
+    public get fuelEfficiency(): number | null {
+        if (this._fuelEfficiency) {
+            return this._fuelEfficiency;
+        }
+
+        return null;
+    }
+
+    constructor(
+        name: string,
+        pl: number,
+        technologies: Technology[],
+        private readonly _powerProduced: number,
+        baseCost: number,
+        private readonly _costPerHullPoint: number,
+        private readonly _minimumSize: number,
+        private readonly _fuelCost?: number,
+        private readonly _fuelEfficiency?: number) {
+        super(name, pl, technologies, baseCost);
+
+        if (this.powerProduced < 0) {
+            throw new Error("Power produced must be 0 or greater");
+        }
+
+        if (this.costPerHullPoint <= 0) {
+            throw new Error("Cost per hull point must be a positive number");
+        }
+
+        if (this.minimumSize < 0) {
+            throw new Error("Minimum size must be 0 or greater");
+        }
+
+        if (this.fuelCost !== null && this.fuelCost <= 0) {
+            throw new Error("Fuel cost must be a positive number");
+        }
+
+        if (this.fuelEfficiency !== null && this.fuelEfficiency! <= 0) {
+            throw new Error("Fuel efficiency must be a positive number");
+        }
+
+        if ((this.fuelEfficiency !== null && this.fuelCost === null) ||
+            (this.fuelEfficiency === null && this.fuelCost !== null)) {
+            throw new Error("If a power plant uses fuel, it needs to define a cost and a efficiency");
+        }
+    }
+}

@@ -1,6 +1,6 @@
 export enum HullType {
     Military,
-    Civilian
+    Civilian,
 }
 
 export enum HullSize {
@@ -8,7 +8,7 @@ export enum HullSize {
     LightShip = "Light Ship",
     MediumShip = "Medium Ship",
     HeavyShip = "Heavy Ship",
-    SuperHeavyShip = "Super-heavy Ship"
+    SuperHeavyShip = "Super-heavy Ship",
 }
 
 export enum Toughness {
@@ -17,7 +17,7 @@ export enum Toughness {
     Light = "Light",
     Medium = "Medium",
     Heavy = "Heavy",
-    SuperHeavy = "Super Heavy"
+    SuperHeavy = "Super Heavy",
 }
 
 export class Hull {
@@ -146,61 +146,5 @@ export class Hull {
         if (this.crew <= 0) {
             throw new Error("Crew must be positive");
         }
-    }
-}
-
-export class HullFactory {
-    static getDefault(): Hull[] {
-        let hulls: Hull[] = [];
-
-        hulls.push(new Hull(
-            "Fighter",
-            HullType.Military,
-            HullSize.SmallCraft,
-            10,
-            Toughness.Small,
-            3,
-            4,
-            5,
-            5,
-            3,
-            2,
-            1,
-            350000
-        ));
-
-        hulls.push(new Hull(
-            "Strike fighter",
-            HullType.Military,
-            HullSize.SmallCraft,
-            15,
-            Toughness.Small,
-            3,
-            4,
-            8,
-            8,
-            4,
-            2,
-            2,
-            500000
-        ));
-
-        hulls.push(new Hull(
-            "Cutter",
-            HullType.Military,
-            HullSize.SmallCraft,
-            20,
-            Toughness.Small,
-            2,
-            4,
-            10,
-            10,
-            5,
-            3,
-            4,
-            600000
-        ));
-
-        return hulls;
     }
 }

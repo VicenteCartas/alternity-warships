@@ -1,10 +1,17 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es2015",
+        "outDir": "js",
         "module": "commonjs",
-        "outDir": "out",
         "strict": true,
+        "sourceMap": true,
         "watch": true,
-        "sourceMap": true
+        "plugins": [
+            { "name": "typescript-tslint-plugin" }
+          ]
     }
+    ,
+    "files": [
+        "app.ts"
+    ]
 }
