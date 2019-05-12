@@ -36,7 +36,7 @@ export class Ship {
         this._armor = armor;
     }
 
-    public armorHullPoints(): number {
+    public get armorHullPoints(): number {
         if (this.hull === null || this.armor === null) {
             return 0;
         }
@@ -44,7 +44,7 @@ export class Ship {
         return this.hull.hullPoints *  this.armor.hullPercentage / 100.0;
     }
 
-    public totalHull(): number {
+    public get totalHull(): number {
         if (this.hull === null) {
             return 0;
         }
@@ -52,41 +52,21 @@ export class Ship {
         return this.hull.hullPoints + this.hull.bonusHullPoints;
     }
 
-    public usedHull(): number {
+    public get usedHull(): number {
         let usedHull = 0;
 
-        usedHull += this.armorHullPoints();
+        usedHull += this.armorHullPoints;
 
         return usedHull;
     }
 
-    public emptyHull(): number {
-        return this.totalHull() - this.usedHull();
+    public get emptyHull(): number {
+        return this.totalHull - this.usedHull;
     }
 
     public hasValidationErrors(): Error[] {
         const errors = new Array<Error | null>();
 
-        errors.push(this.isArmorValid());
-
         return (errors.filter((e) => e !== null) as Error[]);
-    }
-
-    private isArmorValid(): Error | null {
-        if (this.hull === null || this.armor === null) {
-            return null;
-        }
-
-        if (this.hull.hullSize === HullSize.SmallCraft &&
-            (this.armor.ArmorType === ArmorType.Heavy || this.armor.ArmorType === ArmorType.SuperHeavy)) {
-            return new Error(`Small craft can't use ${this.armor.ArmorType.valueOf()} armor`);
-        }
-
-        if (this.hull.hullSize === HullSize.LightShip &&
-            this.armor.ArmorType === ArmorType.SuperHeavy) {
-                return new Error(`Light ship can't use Super-heavy armor`);
-        }
-
-        return null;
     }
 }

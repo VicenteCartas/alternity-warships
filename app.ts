@@ -24,5 +24,5 @@ ship.armor = armors[0];
 console.log(ship.name);
 console.log(`Has errors -> ${ship.hasValidationErrors.length > 0}`);
 console.log(`${ship.hull.name} -> ${ship.hull.hullPoints} (Base) + ${ship.hull.bonusHullPoints} (Bonus)`);
-console.log(`${ship.armor.name}, ${ship.armor.ArmorType.toString()} -> ${ship.armorHullPoints()} hull points`);
-console.log(`Hull (Used/Total): ${ship.usedHull()}/${ship.totalHull()}`);
+console.log(`${ship.armor.name}, ${ship.armor.ArmorType.toString()} -> ${ship.armorHullPoints} hull points`);
+console.log(`Hull (Used/Total): ${ship.usedHull}/${ship.totalHull}`);
