@@ -86,6 +86,7 @@ export class WeaponComponent extends ShipComponent {
     }
 
     constructor(
+    // tslint:disable: variable-name
         name: string,
         pl: number,
         technologies: Technology[],
@@ -102,6 +103,7 @@ export class WeaponComponent extends ShipComponent {
         private readonly _goodDamage: string,
         private readonly _amazingDamage: string,
         private readonly _fireModes: FireMode[]) {
+    // tslint:enable: variable-name
         super(name, pl, technologies, cost);
     }
 }

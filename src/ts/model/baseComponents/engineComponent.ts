@@ -86,6 +86,7 @@ export class EngineComponent extends ShipComponent {
     }
 
     constructor(
+    // tslint:disable: variable-name
         name: string,
         pl: number,
         technologies: Technology[],
@@ -102,6 +103,7 @@ export class EngineComponent extends ShipComponent {
         private readonly _acceleration50?: number,
         private readonly _fuelCost?: number,
         private readonly _fuelEfficiency?: number) {
+    // tslint:enable: variable-name
         super(name, pl, technologies, baseCost);
 
         if (this.powerRequired < 0) {
@@ -112,36 +114,36 @@ export class EngineComponent extends ShipComponent {
             throw new Error("Minimum size must be a positive number");
         }
 
-        if (this.costPerHullPoint <=0) {
+        if (this.costPerHullPoint <= 0) {
             throw new Error("Cost per hull point must be a positive number");
         }
 
         if (this.acceleration5 < 0) {
-            throw new Error("Acceleration at 5% must be 0 or greater")
+            throw new Error("Acceleration at 5% must be 0 or greater");
         }
 
         if (this.acceleration10 < 0) {
-            throw new Error("Acceleration at 10% must be 0 or greater")
+            throw new Error("Acceleration at 10% must be 0 or greater");
         }
 
         if (this.acceleration15 < 0) {
-            throw new Error("Acceleration at 15% must be 0 or greater")
+            throw new Error("Acceleration at 15% must be 0 or greater");
         }
 
         if (this.acceleration20 < 0) {
-            throw new Error("Acceleration at 20% must be 0 or greater")
+            throw new Error("Acceleration at 20% must be 0 or greater");
         }
 
         if (this.acceleration30 < 0) {
-            throw new Error("Acceleration at 30% must be 0 or greater")
+            throw new Error("Acceleration at 30% must be 0 or greater");
         }
 
         if (this.acceleration40 < 0) {
-            throw new Error("Acceleration at 40% must be 0 or greater")
+            throw new Error("Acceleration at 40% must be 0 or greater");
         }
 
         if (this.acceleration50 < 0) {
-            throw new Error("Acceleration at 50% must be 0 or greater")
+            throw new Error("Acceleration at 50% must be 0 or greater");
         }
 
         if (this.fuelCost !== null && this.fuelCost <= 0) {

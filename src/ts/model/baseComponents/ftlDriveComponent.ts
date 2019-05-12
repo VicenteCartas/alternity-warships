@@ -78,6 +78,7 @@ export class FtlDriveComponent extends ShipComponent {
     }
 
     constructor(
+    // tslint:disable: variable-name
         name: string,
         pl: number,
         technologies: Technology[],
@@ -93,6 +94,7 @@ export class FtlDriveComponent extends ShipComponent {
         private readonly _acceleration40?: string,
         private readonly _acceleration50?: string,
         private readonly _fuelCost?: number) {
+    // tslint:enable: variable-name
         super(name, pl, technologies, baseCost);
     }
 }

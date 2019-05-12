@@ -30,6 +30,7 @@ export class PowerPlantComponent extends ShipComponent {
     }
 
     constructor(
+    // tslint:disable: variable-name
         name: string,
         pl: number,
         technologies: Technology[],
@@ -39,6 +40,7 @@ export class PowerPlantComponent extends ShipComponent {
         private readonly _minimumSize: number,
         private readonly _fuelCost?: number,
         private readonly _fuelEfficiency?: number) {
+    // tslint:enable: variable-name
         super(name, pl, technologies, baseCost);
 
         if (this.powerProduced < 0) {

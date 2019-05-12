@@ -1,5 +1,5 @@
-import { PowerPlantComponent } from "../components/powerPlantComponent";
-import { Technology } from "../components/shipComponent";
+import { PowerPlantComponent } from "../baseComponents/powerPlantComponent";
+import { Technology } from "../baseComponents/shipComponent";
 
 export class PowerPlantFactory {
     public static getDefault(): PowerPlantComponent[] {

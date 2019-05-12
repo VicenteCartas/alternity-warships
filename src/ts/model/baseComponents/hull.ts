@@ -105,6 +105,7 @@ export class Hull {
     }
 
     constructor(
+    // tslint:disable: variable-name
         private readonly _name: string,
         private readonly _hullType: HullType,
         private readonly _hullSize: HullSize,
@@ -118,6 +119,7 @@ export class Hull {
         private readonly _critical: number,
         private readonly _crew: number,
         private readonly _cost: number) {
+    // tslint:enable: variable-name
 
         if (this.hullPoints <= 0) {
             throw new Error("Hull points must be positive");

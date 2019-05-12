@@ -1,14 +1,14 @@
 import { ShipComponent, Technology } from "./shipComponent";
 
 export enum ArmorType {
-    Light,
-    Medium,
-    Heavy,
+    Light = "Light",
+    Medium = "Medium",
+    Heavy = "Heavy",
     SuperHeavy = "Super-heavy",
 }
 
 export class ArmorComponent extends ShipComponent {
-    public get armorType(): ArmorType {
+    public get ArmorType(): ArmorType {
         return this._armorType;
     }
 
@@ -29,6 +29,7 @@ export class ArmorComponent extends ShipComponent {
     }
 
     constructor(
+    // tslint:disable: variable-name
         name: string,
         pl: number,
         private readonly _armorType: ArmorType,
@@ -38,6 +39,7 @@ export class ArmorComponent extends ShipComponent {
         private readonly _en: string,
         private readonly _hullPercentage: number,
         cost: number) {
+    // tslint:enable: variable-name
         super(name, pl, technologies, cost);
 
         if (this.li.length < 1) {

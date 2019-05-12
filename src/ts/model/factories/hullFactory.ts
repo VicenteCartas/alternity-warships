@@ -1,4 +1,4 @@
-import { Hull, HullSize, HullType, Toughness } from "../components/hull";
+import { Hull, HullSize, HullType, Toughness } from "../baseComponents/hull";
 
 export class HullFactory {
     public static getDefault(): Hull[] {

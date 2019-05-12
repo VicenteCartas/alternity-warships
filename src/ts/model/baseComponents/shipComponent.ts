@@ -30,10 +30,12 @@ export abstract class ShipComponent {
     }
 
     constructor(
+    // tslint:disable: variable-name
         private readonly _name: string,
         private readonly _pl: number,
         private readonly _technologies: Technology[],
         private readonly _cost: number) {
+    // tslint:enable: variable-name
 
         if (this.name.length < 1) {
             throw new Error("Name of the component can't be empty");

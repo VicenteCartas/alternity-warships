@@ -1,4 +1,4 @@
-import { FtlDriveComponent } from "../components/ftlDriveComponent";
+import { FtlDriveComponent } from "../baseComponents/ftlDriveComponent";
 
 export class FtlDriveFactory {
     public static getDefault(): FtlDriveComponent[] {
