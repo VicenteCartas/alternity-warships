@@ -1,7 +1,9 @@
 import { EngineComponent } from "./baseComponents/engineComponent";
 import { Hull } from "./baseComponents/hull";
 
-export class engine {
+export class Engine {
+    private readonly accelerations: number[] = [];
+
     public get size(): number {
         return this._size;
     }
@@ -9,8 +11,7 @@ export class engine {
     public set size(newSize: number) {
         if (newSize < this._component.minimumSize) {
             this._size = this._component.minimumSize;
-        }
-        else {
+        } else {
             this._size = newSize;
         }
     }
@@ -20,7 +21,7 @@ export class engine {
     }
 
     public get powerConsumed(): number {
-        return this._component.powerRequired * this.size;
+        return this.size * this._component.powerRequired;
     }
 
     public get acceleration(): number {
@@ -31,30 +32,30 @@ export class engine {
         }
 
         if (ratio >= 0.05 && ratio < 0.1) {
-            return this._component.acceleration5;
+            return this.findAcceleration(0);
         }
 
         if (ratio >= 0.1 && ratio < 0.15) {
-            return this._component.acceleration10;
+            return this.findAcceleration(1);
         }
 
         if (ratio >= 0.15 && ratio < 0.2) {
-            return this._component.acceleration15;
+            return this.findAcceleration(2);
         }
 
         if (ratio >= 0.2 && ratio < 0.3) {
-            return this._component.acceleration20;
+            return this.findAcceleration(3);
         }
 
         if (ratio >= 0.3 && ratio < 0.4) {
-            return this._component.acceleration30;
+            return this.findAcceleration(4);
         }
 
         if (ratio >= 0.4 && ratio < 0.5) {
-            return this._component.acceleration40;
+            return this.findAcceleration(5);
         }
 
-        return this._component.acceleration50;
+        return this.findAcceleration(6);
     }
 
     constructor(
@@ -66,5 +67,25 @@ export class engine {
         if (this.size < this._component.minimumSize) {
             this.size = this._component.minimumSize;
         }
+
+        this.accelerations.push(this._component.acceleration5);
+        this.accelerations.push(this._component.acceleration10);
+        this.accelerations.push(this._component.acceleration15);
+        this.accelerations.push(this._component.acceleration20);
+        this.accelerations.push(this._component.acceleration30);
+        this.accelerations.push(this._component.acceleration40);
+        this.accelerations.push(this._component.acceleration50);
+    }
+
+    private findAcceleration(maxAccelerationBracket: number): number {
+        let maxAcceleration = 0;
+
+        for (let i = 0; i <= maxAccelerationBracket; i--) {
+            if (this.accelerations[i] > maxAcceleration) {
+                maxAcceleration = this.accelerations[i];
+            }
+        }
+
+        return maxAcceleration;
     }
 }

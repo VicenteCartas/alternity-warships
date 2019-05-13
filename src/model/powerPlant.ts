@@ -8,8 +8,7 @@ export class PowerPlant {
     public set size(value: number) {
         if (value < this._powerPlantComponent.minimumSize) {
             this._size = this._powerPlantComponent.minimumSize;
-        }
-        else {
+        } else {
             this._size = value;
         }
     }
@@ -19,7 +18,7 @@ export class PowerPlant {
     }
 
     public get powerProduced(): number {
-        return this._powerPlantComponent.powerProduced * this.size;
+        return this.size * this._powerPlantComponent.powerProduced;
     }
 
     constructor(

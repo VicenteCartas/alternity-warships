@@ -1,17 +1,31 @@
 {
-    "compilerOptions": {
-        "target": "es2015",
-        "outDir": "js",
-        "module": "commonjs",
-        "strict": true,
-        "sourceMap": true,
-        "watch": true,
-        "plugins": [
-            { "name": "typescript-tslint-plugin" }
-          ]
-    }
-    ,
-    "files": [
-        "app.ts"
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "sourceMap": true,
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin"
+      }
     ]
+  },
+  "include": [
+    "src"
+  ]
 }

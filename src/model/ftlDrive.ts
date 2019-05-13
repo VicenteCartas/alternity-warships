@@ -2,6 +2,8 @@ import { FtlDriveComponent } from "./baseComponents/ftlDriveComponent";
 import { Hull } from "./baseComponents/hull";
 
 export class FtlDrive {
+    private readonly accelerations: Array<string | null> = [];
+
     public get size(): number {
         return this._size;
     }
@@ -9,8 +11,7 @@ export class FtlDrive {
     public set size(newSize: number) {
         if (newSize < this._component.minimumSize) {
             this._size = this._component.minimumSize;
-        }
-        else {
+        } else {
             this._size = newSize;
         }
     }
@@ -31,58 +32,30 @@ export class FtlDrive {
         }
 
         if (ratio >= 0.05 && ratio < 0.1) {
-            if (this._component.acceleration5 === null) {
-                return "";
-            }
-
-            return this._component.acceleration5;
+            return this.findAcceleration(0);
         }
 
         if (ratio >= 0.1 && ratio < 0.15) {
-            if (this._component.acceleration10 === null) {
-                return "";
-            }
-
-            return this._component.acceleration10;
+            return this.findAcceleration(1);
         }
 
         if (ratio >= 0.15 && ratio < 0.2) {
-            if (this._component.acceleration15 === null) {
-                return "";
-            }
-
-            return this._component.acceleration15;
+            return this.findAcceleration(2);
         }
 
         if (ratio >= 0.2 && ratio < 0.3) {
-            if (this._component.acceleration20 === null) {
-                return "";
-            }
-
-            return this._component.acceleration20;
+            return this.findAcceleration(3);
         }
 
         if (ratio >= 0.3 && ratio < 0.4) {
-            if (this._component.acceleration30 === null) {
-                return "";
-            }
-
-            return this._component.acceleration30;
+            return this.findAcceleration(4);
         }
 
         if (ratio >= 0.4 && ratio < 0.5) {
-            if (this._component.acceleration40 === null) {
-                return "";
-            }
-
-            return this._component.acceleration40;
+            return this.findAcceleration(5);
         }
 
-        if (this._component.acceleration50 === null) {
-            return "";
-        }
-
-        return this._component.acceleration50;
+        return this.findAcceleration(6);
     }
 
     constructor (
@@ -95,11 +68,25 @@ export class FtlDrive {
         if (this.size < this._component.minimumSize) {
             this.size = this._component.minimumSize;
         }
+
+        this.accelerations.push(this._component.acceleration5);
+        this.accelerations.push(this._component.acceleration10);
+        this.accelerations.push(this._component.acceleration15);
+        this.accelerations.push(this._component.acceleration20);
+        this.accelerations.push(this._component.acceleration30);
+        this.accelerations.push(this._component.acceleration40);
+        this.accelerations.push(this._component.acceleration50);
     }
 
-    private static findAcceleration(index: string): string {
-        const accelerations: string[];
+    private findAcceleration(maxAccelerationBracket: number): string {
+        let maxAcceleration = "";
 
-        return accelerations[0]
+        for (let i = 0; i <= maxAccelerationBracket; i--) {
+            if (this.accelerations[i] !== null) {
+                maxAcceleration = this.accelerations[i]!;
+            }
+        }
+
+        return maxAcceleration;
     }
 }
