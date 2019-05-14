@@ -72,6 +72,10 @@ export class Ship {
             usedHull += this.armor.size;
         }
 
+        if (this.powerPlant !== null) {
+            usedHull += this.powerPlant.size;
+        }
+
         return usedHull;
     }
 
@@ -96,6 +100,10 @@ export class Ship {
 
         if (this.armor !== null) {
             cost += this.armor.cost;
+        }
+
+        if (this.powerPlant !== null) {
+            cost += this.powerPlant.cost;
         }
 
         return cost;

@@ -1,12 +1,19 @@
 import { TextField } from "office-ui-fabric-react/lib/TextField";
 import React from "react";
+// tslint:disable: max-line-length
 
 interface INameUpdater {
-    updateName: (newName: string) => void;
+    onNameChanged: (newName: string) => void;
 }
 
 export function ShipName(props: INameUpdater) {
-    const handleChange: (x: any) => void = (e) => props.updateName(e.target.value);
+    const handleNameChanged = (ev: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string): void => {
+        if (newValue === undefined) {
+            props.onNameChanged("");
+        } else {
+            props.onNameChanged(newValue);
+        }
+    };
 
     return (
         <div>
@@ -14,7 +21,8 @@ export function ShipName(props: INameUpdater) {
                 label="Warship name"
                 required
                 defaultValue="USS Enterprise"
-                onChange={handleChange} />
+                onChange={handleNameChanged} />
         </div>
     );
 }
+// tslint:enable: max-line-length

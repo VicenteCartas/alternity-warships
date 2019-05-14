@@ -1,3 +1,4 @@
+import { Label, Stack } from "office-ui-fabric-react";
 import React from "react";
 import { Ship } from "../model/ship";
 
@@ -8,9 +9,11 @@ interface IShipProps {
 export function ShipDebug(props: IShipProps) {
     return (
         <div>
-            <label>Ship name: {props.ship.name}</label>
-            <label>Ship cost: {props.ship.cost}</label>
-            <label>Ship hull (used/total): {props.ship.usedHull}/{props.ship.totalHull}</label>
+            <Stack tokens={{ childrenGap: 10 }}>
+                <Label>Ship name: {props.ship.name}</Label>
+                <Label>Ship cost: {props.ship.cost}</Label>
+                <Label>Ship hull (used/total): {props.ship.usedHull}/{props.ship.totalHull}</Label>
+            </Stack>
         </div>
     );
 }
