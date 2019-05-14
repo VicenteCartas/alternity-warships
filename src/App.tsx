@@ -15,11 +15,15 @@ class App extends Component {
   };
 
   public render() {
+    const powerPlantSize: number = (this.state.ship.powerPlant !== null)
+        ? this.state.ship.powerPlant.size
+        : 0;
+
     return (
       <div>
         <Stack tokens={{ childrenGap: 50}} styles={{ root: { width: 700 } }}>
           <ShipPanel
-            ship={this.state.ship}
+            currentPowerPlantSize={powerPlantSize}
             onNameChanged={this.updateShipName}
             onHullChanged={this.updateShipHull}
             onPowerPlantChanged={this.updateShipPowerPlant}

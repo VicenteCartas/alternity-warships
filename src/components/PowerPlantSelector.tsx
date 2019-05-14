@@ -1,28 +1,50 @@
-import { Dropdown, IDropdownOption, Label, SpinButton, Stack } from "office-ui-fabric-react";
+import { Dropdown, IDropdown, IDropdownOption, Label, SpinButton, Stack } from "office-ui-fabric-react";
 import React from "react";
 import { PowerPlantComponent } from "../model/baseComponents/powerPlantComponent";
 import { PowerPlantFactory } from "../model/factories/powerPlantFactory";
 // tslint:disable: max-line-length
 
 interface IPowerPlantUpdater {
+    currentSize?: string;
     onPowerPlantChanged: (newPowerPlant: PowerPlantComponent) => void;
     onPowerPlantSizeChanged: (newSize: number) => void;
 }
 
 export function PowerPlantSelector(props: IPowerPlantUpdater) {
+    const dropDown = React.createRef<IDropdown>();
+    const spinButton = React.createRef<SpinButton>();
+
     const initialOptions: IDropdownOption[] = [
         ...(PowerPlantFactory.getDefault().map((e) => ({ data: e, key: e.name, text: `${e.name}` } as IDropdownOption))),
     ];
 
-    const handlePowerPlantChanged = (event: React.FormEvent<HTMLDivElement>, option?: IDropdownOption | undefined, index?: number | undefined): void => {
+    const handlePowerPlantChanged = (event: React.FormEvent<HTMLDivElement>, option?: IDropdownOption | undefined): void => {
         if (option !== undefined) {
-            props.onPowerPlantChanged(option.data as PowerPlantComponent);
+            const selectedPowerPlant = (option.data as PowerPlantComponent);
+            props.onPowerPlantChanged(selectedPowerPlant);
+
+            if (spinButton.current !== null && spinButton.current.value !== undefined) {
+                const currentSize = Number(spinButton.current.value);
+                if (currentSize < selectedPowerPlant.minimumSize) {
+                    spinButton.current.setState({value: selectedPowerPlant.minimumSize.toString()});
+                }
+            }
         }
     };
 
-    const handleValueChanged = (value: string): string | void => {
+    const handleValueDecremented = (value: string): string | void => {
         if (value !== null) {
-            props.onPowerPlantSizeChanged(Number(value));
+            const newSize = Number(value) - 1;
+            props.onPowerPlantSizeChanged(newSize);
+            return newSize.toString();
+        }
+    };
+
+    const handleValueIncremented = (value: string): string | void => {
+        if (value !== null) {
+            const newNumber = Number(value) + 1;
+            props.onPowerPlantSizeChanged(newNumber);
+            return newNumber.toString();
         }
     };
 
@@ -33,17 +55,21 @@ export function PowerPlantSelector(props: IPowerPlantUpdater) {
             </Stack.Item>
             <Stack.Item align="auto">
                 <Dropdown
+                    componentRef={dropDown}
                     required
                     options={initialOptions}
                     onChange={handlePowerPlantChanged}/>
             </Stack.Item>
             <Stack.Item align="auto">
                 <SpinButton
+                    componentRef={spinButton}
                     label="Size"
                     min={0}
                     max={20000}
                     step={1}
-                    value="0" />
+                    defaultValue={props.currentSize}
+                    onDecrement={handleValueDecremented}
+                    onIncrement={handleValueIncremented} />
             </Stack.Item>
         </Stack>
     );

@@ -8,7 +8,7 @@ import { PowerPlantSelector } from "./PowerPlantSelector";
 import { ShipName } from "./ShipName";
 
 interface IShipProps {
-    ship: Ship;
+    currentPowerPlantSize: number;
     onNameChanged: (newName: string) => void;
     onHullChanged: (newHull: Hull) => void;
     onPowerPlantChanged: (newPowerPlant: PowerPlantComponent) => void;
@@ -22,6 +22,7 @@ export function ShipPanel(props: IShipProps) {
                 <ShipName onNameChanged={props.onNameChanged} />
                 <HullSelector onHullChanged={props.onHullChanged} />
                 <PowerPlantSelector
+                    currentSize={props.currentPowerPlantSize.toString()}
                     onPowerPlantChanged={props.onPowerPlantChanged}
                     onPowerPlantSizeChanged={props.onPowerPlantSizeChanged} />
             </Stack>
