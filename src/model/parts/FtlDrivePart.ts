@@ -1,6 +1,6 @@
-import { ShipComponent, Technology } from "./shipComponent";
+import { ShipPart, Technology } from "./ShipPart";
 
-export class FtlDriveComponent extends ShipComponent {
+export class FtlDrivePart extends ShipPart {
     public get powerRequired(): number {
         return this._powerRequired;
     }

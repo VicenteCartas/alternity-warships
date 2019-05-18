@@ -1,12 +1,12 @@
-import { PowerPlantComponent } from "../baseComponents/powerPlantComponent";
-import { Technology } from "../baseComponents/shipComponent";
+import { PowerPlantPart } from "../parts/PowerPlantPart";
+import { Technology } from "../parts/ShipPart";
 
-export class PowerPlantFactory {
-    public static getDefault(): PowerPlantComponent[] {
-        const powerPlants: PowerPlantComponent[] = [];
+export class PowerPlantPartFactory {
+    public static getDefault(): PowerPlantPart[] {
+        const powerPlants: PowerPlantPart[] = [];
 
         // PL 6 Power Plants
-        powerPlants.push(new PowerPlantComponent(
+        powerPlants.push(new PowerPlantPart(
             "Solar Cell",
             6,
             [Technology.SuperMaterials],
@@ -16,7 +16,7 @@ export class PowerPlantFactory {
             4,
         ));
 
-        powerPlants.push(new PowerPlantComponent(
+        powerPlants.push(new PowerPlantPart(
             "Fission Generator",
             6,
             [],
@@ -26,7 +26,7 @@ export class PowerPlantFactory {
             4,
         ));
 
-        powerPlants.push(new PowerPlantComponent(
+        powerPlants.push(new PowerPlantPart(
             "Fusion Generator",
             6,
             [Technology.FusionTech],
@@ -38,7 +38,7 @@ export class PowerPlantFactory {
             200,
         ));
 
-        powerPlants.push(new PowerPlantComponent(
+        powerPlants.push(new PowerPlantPart(
             "Grav-fusion Cell",
             6,
             [Technology.GravityManipulation],
@@ -50,7 +50,7 @@ export class PowerPlantFactory {
             300,
         ));
 
-        powerPlants.push(new PowerPlantComponent(
+        powerPlants.push(new PowerPlantPart(
             "Fuel Tank",
             6,
             [],

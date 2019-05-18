@@ -1,4 +1,4 @@
-import { PowerPlantComponent } from "./baseComponents/powerPlantComponent";
+import { PowerPlantPart } from "./parts/PowerPlantPart";
 
 export class PowerPlant {
     public get size(): number {
@@ -6,28 +6,28 @@ export class PowerPlant {
     }
 
     public set size(value: number) {
-        if (value < this._powerPlantComponent.minimumSize) {
-            this._size = this._powerPlantComponent.minimumSize;
+        if (value < this._powerPlantPart.minimumSize) {
+            this._size = this._powerPlantPart.minimumSize;
         } else {
             this._size = value;
         }
     }
 
     public get cost(): number {
-        return this._powerPlantComponent.cost + this.size * this._powerPlantComponent.costPerHullPoint;
+        return this._powerPlantPart.cost + this.size * this._powerPlantPart.costPerHullPoint;
     }
 
     public get powerProduced(): number {
-        return this.size * this._powerPlantComponent.powerProduced;
+        return this.size * this._powerPlantPart.powerProduced;
     }
 
     constructor(
     // tslint:disable: variable-name
-        private readonly _powerPlantComponent: PowerPlantComponent,
+        private readonly _powerPlantPart: PowerPlantPart,
         private _size: number) {
     // tslint:enable: variable-name
-        if (this.size < this._powerPlantComponent.minimumSize) {
-            this.size = this._powerPlantComponent.minimumSize;
+        if (this.size < this._powerPlantPart.minimumSize) {
+            this.size = this._powerPlantPart.minimumSize;
         }
     }
 }

@@ -1,14 +1,14 @@
-import { Armor } from "./armor";
-import { ArmorComponent } from "./baseComponents/armorComponent";
-import { Hull } from "./baseComponents/hull";
-import { PowerPlantComponent } from "./baseComponents/powerPlantComponent";
-import { PowerPlant } from "./powerPlant";
+import { Armor } from "./Armor";
+import { ArmorPart } from "./Parts/ArmorPart";
+import { HullPart } from "./Parts/HullPart";
+import { PowerPlantPart } from "./Parts/PowerPlantPart";
+import { PowerPlant } from "./PowerPlant";
 
 export class Ship {
     // tslint:disable: variable-name
     private _name: string | null = null;
-    private _hull: Hull | null = null;
-    private _armorComponent: ArmorComponent | null = null;
+    private _hull: HullPart | null = null;
+    private _armorPart: ArmorPart | null = null;
     private _armor: Armor | null = null;
     private _powerPlant: PowerPlant | null = null;
     // tslint:enable: variable-name
@@ -21,31 +21,31 @@ export class Ship {
         this._name = name;
     }
 
-    public get hull(): Hull | null {
+    public get hull(): HullPart | null {
         return this._hull;
     }
 
-    public set hull(newHull: Hull | null) {
+    public set hull(newHull: HullPart | null) {
         if (newHull !== this.hull) {
             this._hull = newHull;
             this.hullChanged();
         }
     }
 
-    public set armorComponent(component: ArmorComponent) {
+    public set armorPart(part: ArmorPart) {
         if (this.hull === null) {
             return;
         }
 
-        this._armorComponent = component;
-        this._armor = new Armor(component, this.hull!);
+        this._armorPart = part;
+        this._armor = new Armor(part, this.hull!);
     }
 
-    public set powerPlantComponent(component: PowerPlantComponent) {
+    public set powerPlantPart(part: PowerPlantPart) {
         if (this.powerPlant === null) {
-            this._powerPlant = new PowerPlant(component, 0);
+            this._powerPlant = new PowerPlant(part, 0);
         } else {
-            this._powerPlant = new PowerPlant(component, this.powerPlant.size);
+            this._powerPlant = new PowerPlant(part, this.powerPlant.size);
         }
     }
 
@@ -121,8 +121,8 @@ export class Ship {
 
     // Regenerate components that depend on the selected hull
     private hullChanged() {
-        if (this._armorComponent !== null) {
-            this.armorComponent = this._armorComponent;
+        if (this._armorPart !== null) {
+            this.armorPart = this._armorPart;
         }
     }
 }

@@ -1,8 +1,7 @@
-import { Stack } from "office-ui-fabric-react";
-import React from "react";
-import { Hull } from "../model/baseComponents/hull";
-import { PowerPlantComponent } from "../model/baseComponents/powerPlantComponent";
-import { Ship } from "../model/ship";
+import { Stack } from "./node_modules/office-ui-fabric-react";
+import React from "./node_modules/react";
+import { HullPart } from "../model/parts/HullPart";
+import { PowerPlantPart } from "../model/parts/PowerPlantPart";
 import { HullSelector } from "./HullSelector";
 import { PowerPlantSelector } from "./PowerPlantSelector";
 import { ShipName } from "./ShipName";
@@ -10,8 +9,8 @@ import { ShipName } from "./ShipName";
 interface IShipProps {
     currentPowerPlantSize: number;
     onNameChanged: (newName: string) => void;
-    onHullChanged: (newHull: Hull) => void;
-    onPowerPlantChanged: (newPowerPlant: PowerPlantComponent) => void;
+    onHullChanged: (newHull: HullPart) => void;
+    onPowerPlantChanged: (newPowerPlant: PowerPlantPart) => void;
     onPowerPlantSizeChanged: (newSize: number) => void;
 }
 

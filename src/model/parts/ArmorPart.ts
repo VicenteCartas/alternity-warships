@@ -1,4 +1,4 @@
-import { ShipComponent, Technology } from "./shipComponent";
+import { ShipPart, Technology } from "./ShipPart";
 
 export enum ArmorType {
     Light = "Light",
@@ -7,7 +7,7 @@ export enum ArmorType {
     SuperHeavy = "Super-heavy",
 }
 
-export class ArmorComponent extends ShipComponent {
+export class ArmorPart extends ShipPart {
     public get ArmorType(): ArmorType {
         return this._armorType;
     }

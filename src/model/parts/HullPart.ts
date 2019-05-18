@@ -20,7 +20,7 @@ export enum Toughness {
     SuperHeavy = "Super Heavy",
 }
 
-export class Hull {
+export class HullPart {
     public get name(): string {
         return this._name;
     }

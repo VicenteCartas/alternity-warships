@@ -1,12 +1,12 @@
-import { Dropdown, IDropdown, IDropdownOption, Label, SpinButton, Stack } from "office-ui-fabric-react";
-import React from "react";
-import { PowerPlantComponent } from "../model/baseComponents/powerPlantComponent";
-import { PowerPlantFactory } from "../model/factories/powerPlantFactory";
+import { Dropdown, IDropdown, IDropdownOption, Label, SpinButton, Stack } from "./node_modules/office-ui-fabric-react";
+import React from "./node_modules/react";
+import { PowerPlantPartFactory } from "../model/factories/PowerPlantPartFactory";
+import { PowerPlantPart } from "../model/parts/PowerPlantPart";
 // tslint:disable: max-line-length
 
 interface IPowerPlantUpdater {
     currentSize?: string;
-    onPowerPlantChanged: (newPowerPlant: PowerPlantComponent) => void;
+    onPowerPlantChanged: (newPowerPlant: PowerPlantPart) => void;
     onPowerPlantSizeChanged: (newSize: number) => void;
 }
 
@@ -15,12 +15,12 @@ export function PowerPlantSelector(props: IPowerPlantUpdater) {
     const spinButton = React.createRef<SpinButton>();
 
     const initialOptions: IDropdownOption[] = [
-        ...(PowerPlantFactory.getDefault().map((e) => ({ data: e, key: e.name, text: `${e.name}` } as IDropdownOption))),
+        ...(PowerPlantPartFactory.getDefault().map((e) => ({ data: e, key: e.name, text: `${e.name}` } as IDropdownOption))),
     ];
 
     const handlePowerPlantChanged = (event: React.FormEvent<HTMLDivElement>, option?: IDropdownOption | undefined): void => {
         if (option !== undefined) {
-            const selectedPowerPlant = (option.data as PowerPlantComponent);
+            const selectedPowerPlant = (option.data as PowerPlantPart);
             props.onPowerPlantChanged(selectedPowerPlant);
 
             if (spinButton.current !== null && spinButton.current.value !== undefined) {

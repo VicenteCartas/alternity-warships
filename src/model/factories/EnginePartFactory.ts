@@ -1,12 +1,12 @@
-import { EngineComponent } from "../baseComponents/engineComponent";
-import { Technology } from "../baseComponents/shipComponent";
+import { EnginePart } from "../parts/EnginePart";
+import { Technology } from "../parts/ShipPart";
 
-export class EngineFactory {
-    public static getDefault(): EngineComponent[] {
-        const engines: EngineComponent[] = [];
+export class EnginePartFactory {
+    public static getDefault(): EnginePart[] {
+        const engines: EnginePart[] = [];
 
         // PL 6 Engines
-        engines.push(new EngineComponent(
+        engines.push(new EnginePart(
             "Planetary thruster",
             6,
             [],
@@ -25,7 +25,7 @@ export class EngineFactory {
             10,
         ));
 
-        engines.push(new EngineComponent(
+        engines.push(new EnginePart(
             "Photon sail",
             6,
             [],
@@ -42,7 +42,7 @@ export class EngineFactory {
             0.25,
         ));
 
-        engines.push(new EngineComponent(
+        engines.push(new EnginePart(
             "Fusion torch",
             6,
             [],
@@ -61,7 +61,7 @@ export class EngineFactory {
             200,
         ));
 
-        engines.push(new EngineComponent(
+        engines.push(new EnginePart(
             "Ion engine",
             6,
             [Technology.SuperMaterials],

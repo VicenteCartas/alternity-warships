@@ -1,4 +1,4 @@
-import { ShipComponent, Technology } from "./shipComponent";
+import { ShipPart, Technology } from "./ShipPart";
 
 export enum DamageType {
     LowImpact = "LI",
@@ -36,7 +36,7 @@ export enum MountSize {
     QuadMount = "Quad",
 }
 
-export class WeaponComponent extends ShipComponent {
+export class WeaponPart extends ShipPart {
     public get hull(): number {
         return this._hull;
     }

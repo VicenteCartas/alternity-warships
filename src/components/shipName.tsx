@@ -1,5 +1,5 @@
-import { TextField } from "office-ui-fabric-react/lib/TextField";
-import React from "react";
+import { TextField } from "./node_modules/office-ui-fabric-react/lib/TextField";
+import React from "./node_modules/react";
 // tslint:disable: max-line-length
 
 interface INameUpdater {

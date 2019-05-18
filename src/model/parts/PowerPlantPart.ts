@@ -1,6 +1,6 @@
-import { ShipComponent, Technology } from "./shipComponent";
+import { ShipPart, Technology } from "./ShipPart";
 
-export class PowerPlantComponent extends ShipComponent {
+export class PowerPlantPart extends ShipPart {
     public get powerProduced(): number {
         return this._powerProduced;
     }

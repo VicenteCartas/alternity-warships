@@ -1,5 +1,5 @@
-import { EngineComponent } from "./baseComponents/engineComponent";
-import { Hull } from "./baseComponents/hull";
+import { EnginePart } from "./Parts/EnginePart";
+import { HullPart } from "./Parts/HullPart";
 
 export class Engine {
     private readonly accelerations: number[] = [];
@@ -9,19 +9,19 @@ export class Engine {
     }
 
     public set size(newSize: number) {
-        if (newSize < this._component.minimumSize) {
-            this._size = this._component.minimumSize;
+        if (newSize < this._part.minimumSize) {
+            this._size = this._part.minimumSize;
         } else {
             this._size = newSize;
         }
     }
 
     public get cost(): number {
-        return this._component.cost + this.size * this._component.costPerHullPoint;
+        return this._part.cost + this.size * this._part.costPerHullPoint;
     }
 
     public get powerConsumed(): number {
-        return this.size * this._component.powerRequired;
+        return this.size * this._part.powerRequired;
     }
 
     public get acceleration(): number {
@@ -60,21 +60,21 @@ export class Engine {
 
     constructor(
         // tslint:disable: variable-name
-            private readonly _component: EngineComponent,
-            private readonly _hull: Hull,
+            private readonly _part: EnginePart,
+            private readonly _hull: HullPart,
             private _size: number) {
         // tslint:enable: variable-name
-        if (this.size < this._component.minimumSize) {
-            this.size = this._component.minimumSize;
+        if (this.size < this._part.minimumSize) {
+            this.size = this._part.minimumSize;
         }
 
-        this.accelerations.push(this._component.acceleration5);
-        this.accelerations.push(this._component.acceleration10);
-        this.accelerations.push(this._component.acceleration15);
-        this.accelerations.push(this._component.acceleration20);
-        this.accelerations.push(this._component.acceleration30);
-        this.accelerations.push(this._component.acceleration40);
-        this.accelerations.push(this._component.acceleration50);
+        this.accelerations.push(this._part.acceleration5);
+        this.accelerations.push(this._part.acceleration10);
+        this.accelerations.push(this._part.acceleration15);
+        this.accelerations.push(this._part.acceleration20);
+        this.accelerations.push(this._part.acceleration30);
+        this.accelerations.push(this._part.acceleration40);
+        this.accelerations.push(this._part.acceleration50);
     }
 
     private findAcceleration(maxAccelerationBracket: number): number {

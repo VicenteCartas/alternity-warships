@@ -1,11 +1,12 @@
-import { Stack } from "office-ui-fabric-react";
+import { FluentCustomizations } from "@uifabric/fluent-theme";
+import { Customizer, Pivot, PivotItem, Stack } from "office-ui-fabric-react";
 import { initializeIcons } from "office-ui-fabric-react/lib/Icons";
 import React, { Component } from "react";
 import { ShipDebug } from "./components/ShipDebug";
 import { ShipPanel } from "./components/ShipPanel";
-import { Hull } from "./model/baseComponents/hull";
-import { PowerPlantComponent } from "./model/baseComponents/powerPlantComponent";
-import { Ship } from "./model/ship";
+import { HullPart } from "./model/parts/HullPart";
+import { PowerPlantPart } from "./model/parts/PowerPlantPart";
+import { Ship } from "./model/Ship";
 
 initializeIcons();
 
@@ -21,15 +22,24 @@ class App extends Component {
 
     return (
       <div>
-        <Stack tokens={{ childrenGap: 50}} styles={{ root: { width: 700 } }}>
-          <ShipPanel
-            currentPowerPlantSize={powerPlantSize}
-            onNameChanged={this.updateShipName}
-            onHullChanged={this.updateShipHull}
-            onPowerPlantChanged={this.updateShipPowerPlant}
-            onPowerPlantSizeChanged={this.updateShipPowerPlantSize} />
-          <ShipDebug ship={this.state.ship} />
-        </Stack>
+        <Customizer {...FluentCustomizations}>
+          <Pivot>
+            <PivotItem headerText = "Hulls">
+
+            </PivotItem>
+            <PivotItem headerText="Old">
+              <Stack tokens={{ childrenGap: 50}} styles={{ root: { width: 700 } }}>
+                <ShipPanel
+                  currentPowerPlantSize={powerPlantSize}
+                  onNameChanged={this.updateShipName}
+                  onHullChanged={this.updateShipHull}
+                  onPowerPlantChanged={this.updateShipPowerPlant}
+                  onPowerPlantSizeChanged={this.updateShipPowerPlantSize} />
+                <ShipDebug ship={this.state.ship} />
+              </Stack>
+            </PivotItem>
+          </Pivot>
+        </Customizer>
       </div>
     );
   }
@@ -40,13 +50,13 @@ class App extends Component {
     this.forceUpdate();
   }
 
-  private updateShipHull: (x: Hull) => void = (x) => {
+  private updateShipHull: (x: HullPart) => void = (x) => {
     this.state.ship.hull = x;
     this.forceUpdate();
   }
 
-  private updateShipPowerPlant: (x: PowerPlantComponent) => void = (x) => {
-    this.state.ship.powerPlantComponent = x;
+  private updateShipPowerPlant: (x: PowerPlantPart) => void = (x) => {
+    this.state.ship.powerPlantPart = x;
     this.forceUpdate();
   }
 

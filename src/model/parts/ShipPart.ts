@@ -12,7 +12,7 @@ export enum Technology {
     ComputerTech = "C",
 }
 
-export abstract class ShipComponent {
+export abstract class ShipPart {
     public get name(): string {
         return this._name;
     }
