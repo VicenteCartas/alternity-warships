@@ -6,6 +6,7 @@ import { ShipDebug } from "./components/ShipDebug";
 import { HullPart } from "./model/parts/HullPart";
 import { PowerPlantPart } from "./model/parts/PowerPlantPart";
 import { Ship } from "./model/Ship";
+import { HullPanelContainer } from "./components/hullPanel/HullPanel.container";
 
 initializeIcons();
 
@@ -24,7 +25,7 @@ class App extends Component {
         <Customizer {...FluentCustomizations}>
           <Pivot>
             <PivotItem headerText = "Hulls">
-
+              <HullPanelContainer />
             </PivotItem>
             <PivotItem headerText="Old">
               <Stack tokens={{ childrenGap: 50}} styles={{ root: { width: 700 } }}>
