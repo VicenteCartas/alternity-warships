@@ -1,5 +1,5 @@
-import { Dropdown, IDropdown, IDropdownOption, Label, SpinButton, Stack } from "./node_modules/office-ui-fabric-react";
-import React from "./node_modules/react";
+import { Dropdown, IDropdown, IDropdownOption, Label, SpinButton, Stack } from "office-ui-fabric-react";
+import React from "react";
 import { PowerPlantPartFactory } from "../model/factories/PowerPlantPartFactory";
 import { PowerPlantPart } from "../model/parts/PowerPlantPart";
 // tslint:disable: max-line-length

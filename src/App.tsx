@@ -3,7 +3,6 @@ import { Customizer, Pivot, PivotItem, Stack } from "office-ui-fabric-react";
 import { initializeIcons } from "office-ui-fabric-react/lib/Icons";
 import React, { Component } from "react";
 import { ShipDebug } from "./components/ShipDebug";
-import { ShipPanel } from "./components/ShipPanel";
 import { HullPart } from "./model/parts/HullPart";
 import { PowerPlantPart } from "./model/parts/PowerPlantPart";
 import { Ship } from "./model/Ship";
@@ -29,12 +28,6 @@ class App extends Component {
             </PivotItem>
             <PivotItem headerText="Old">
               <Stack tokens={{ childrenGap: 50}} styles={{ root: { width: 700 } }}>
-                <ShipPanel
-                  currentPowerPlantSize={powerPlantSize}
-                  onNameChanged={this.updateShipName}
-                  onHullChanged={this.updateShipHull}
-                  onPowerPlantChanged={this.updateShipPowerPlant}
-                  onPowerPlantSizeChanged={this.updateShipPowerPlantSize} />
                 <ShipDebug ship={this.state.ship} />
               </Stack>
             </PivotItem>

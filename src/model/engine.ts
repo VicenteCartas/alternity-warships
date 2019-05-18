@@ -1,5 +1,5 @@
-import { EnginePart } from "./Parts/EnginePart";
-import { HullPart } from "./Parts/HullPart";
+import { EnginePart } from "./parts/EnginePart";
+import { HullPart } from "./parts/HullPart";
 
 export class Engine {
     private readonly accelerations: number[] = [];

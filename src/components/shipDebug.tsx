@@ -1,5 +1,5 @@
-import { Label, Stack } from "./node_modules/office-ui-fabric-reactui-fabric-react";
-import React from "./node_modules/reacte_modules/react";
+import { Label, Stack } from "office-ui-fabric-react";
+import React from "react";
 import { Ship } from "../model/Ship";
 
 interface IShipProps {

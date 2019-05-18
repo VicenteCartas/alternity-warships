@@ -1,5 +1,5 @@
-import { Dropdown, DropdownMenuItemType, IDropdownOption } from "./node_modules/office-ui-fabric-react/lib/index";
-import React from "./node_modules/react";
+import { Dropdown, DropdownMenuItemType, IDropdownOption } from "office-ui-fabric-react/lib/index";
+import React from "react";
 import { HullPartFactory } from "../model/factories/HullPartFactory";
 import { HullPart } from "../model/parts/HullPart";
 // tslint:disable: max-line-length

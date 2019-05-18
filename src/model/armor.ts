@@ -1,5 +1,5 @@
-import { ArmorPart, ArmorType } from "./Parts/ArmorPart";
-import { HullPart, HullSize } from "./Parts/HullPart";
+import { ArmorPart, ArmorType } from "./parts/ArmorPart";
+import { HullPart, HullSize } from "./parts/HullPart";
 
 export class Armor {
     public get size(): number {

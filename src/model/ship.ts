@@ -1,7 +1,7 @@
 import { Armor } from "./Armor";
-import { ArmorPart } from "./Parts/ArmorPart";
-import { HullPart } from "./Parts/HullPart";
-import { PowerPlantPart } from "./Parts/PowerPlantPart";
+import { ArmorPart } from "./parts/ArmorPart";
+import { HullPart } from "./parts/HullPart";
+import { PowerPlantPart } from "./parts/PowerPlantPart";
 import { PowerPlant } from "./PowerPlant";
 
 export class Ship {
