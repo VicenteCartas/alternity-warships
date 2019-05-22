@@ -1,56 +1,63 @@
 import React from "react";
 import { HullPanel } from "./HullPanel";
-import { IColumn, IGroup, ColumnActionsMode, buildColumns } from "office-ui-fabric-react/lib/DetailsList";
-import { HullPart, Toughness } from "../../model/parts/HullPart";
+import { IGroup } from "office-ui-fabric-react/lib/DetailsList";
+import { HullPart, HullType } from "../../model/parts/HullPart";
 import { HullPartFactory } from "../../model/factories/HullPartFactory";
 import { IDropdownOption } from "office-ui-fabric-react";
 
 interface IHullPanelContainerProps {
-
+    selectedHull?: HullPart
 }
 
 interface IHullPanelContainerState {
-    hullCategoriesOptions: IDropdownOption[];
-    hullCategoriesDefaultValue: string;
-    columns: IColumn[];
-    groups: IGroup[];
-    hulls: HullPart[];
+    hullCategoriesSelectedValue: string;
+    selectedHull?: HullPart;
 }
 
 export class HullPanelContainer extends React.Component<IHullPanelContainerProps, IHullPanelContainerState> {
-    private static hullTypesOptions: IDropdownOption[];
-    private static columns: IColumn[];
-    private static groups: IGroup[];
-    private static hulls: HullPart[];
-
     constructor(props: Readonly<IHullPanelContainerProps>) {
         super(props);
 
-        HullPanelContainer.hullTypesOptions = HullPanelContainer.buildHullTypesOptions(); 
-        HullPanelContainer.columns = HullPanelColumnsRenderer.buildColumns();
-        [HullPanelContainer.groups, HullPanelContainer.hulls] = HullPanelContainer.buildGroups();
+        let selectedHullCategory = "military";
+        if (this.props.selectedHull && 
+            this.props.selectedHull.hullType === HullType.Civilian) {
+            selectedHullCategory = "civilian";
+        }
 
         this.state = {
-            hullCategoriesOptions: HullPanelContainer.hullTypesOptions,
-            hullCategoriesDefaultValue: "military",
-            columns: HullPanelContainer.columns,
-            groups: HullPanelContainer.groups,
-            hulls: HullPanelContainer.hulls
+            hullCategoriesSelectedValue: selectedHullCategory,
+            selectedHull: this.props.selectedHull,
         }
     }
 
     render() {
+        const [groups, hulls] = HullPanelContainer.buildGroups();
+
         return (
             <HullPanel 
-                hullCategoriesOptions={this.state.hullCategoriesOptions}
-                hullCategoriesDefaultValue={this.state.hullCategoriesDefaultValue}
-                columns={this.state.columns}
-                groups={this.state.groups}
-                hulls={this.state.hulls} />
+                hullCategoriesOptions={HullPanelContainer.buildHullTypesOptions(this.state.hullCategoriesSelectedValue)}
+                hullCategoriesSelectedValue={this.state.hullCategoriesSelectedValue}
+                groups={groups}
+                hulls={hulls} 
+                selectedHull={this.state.selectedHull}
+                onHullCategoryChanged={this.onHullCategoryChanged.bind(this)} />
         )
     }
 
-    private static buildHullTypesOptions() {
+    private onHullCategoryChanged(option?: IDropdownOption): void {
+        if (option) {
+            this.setState(state => {
+                return {
+                    selectedHull: undefined,
+                    hullCategoriesSelectedValue: option.key
+                } as IHullPanelContainerState            
+            });
+        }
+
+        return undefined;
+    }
+
+    private static buildHullTypesOptions(hullCategory: string) {
         const hullTypesOptions: IDropdownOption[] = [];
 
         hullTypesOptions.push({ key: "military", text:"Military" });
@@ -84,78 +91,5 @@ export class HullPanelContainer extends React.Component<IHullPanelContainerProps
         groups.push({ key: "superHeavyShips", name:"Super-heavy ships", startIndex: start, count: hulls.length - start });
 
         return [groups, hulls];
-    }
-}
-
-class HullPanelColumnsRenderer {
-    public static buildColumns(): IColumn[] {
-        const columns: IColumn[] = []
-
-        columns.push({ key: 'type', name: 'Hull Type', fieldName: 'name', minWidth: 75, maxWidth: 200, columnActionsMode: ColumnActionsMode.clickable, isResizable: true });
-        columns.push({ key: 'hullPoints', name: 'Hull Pts.', fieldName: 'hullPoints', minWidth: 50, maxWidth: 100, columnActionsMode: ColumnActionsMode.clickable, isResizable: true, onRender: HullPanelColumnsRenderer.renderHullPoints });
-        columns.push({ key: 'toughness', name: 'Tough', fieldName: 'toughness', minWidth: 50, maxWidth: 75, columnActionsMode: ColumnActionsMode.clickable, isResizable: true, onRender: HullPanelColumnsRenderer.renderToughness });
-        columns.push({ key: 'targetModifier', name: 'Target', fieldName: 'targetModifier', minWidth: 50, maxWidth: 75, columnActionsMode: ColumnActionsMode.clickable, isResizable: true, onRender: HullPanelColumnsRenderer.renderTargetModifier });
-        columns.push({ key: 'maneuverability', name: 'Mvr', fieldName: 'maneuverability', minWidth: 50, maxWidth: 75, columnActionsMode: ColumnActionsMode.clickable, isResizable: true });
-        columns.push({ key: 'stun', name: 's', fieldName: 'stun', minWidth: 25, maxWidth: 50, columnActionsMode: ColumnActionsMode.clickable, isResizable: true });
-        columns.push({ key: 'wound', name: 'w', fieldName: 'wound', minWidth: 25, maxWidth: 50, columnActionsMode: ColumnActionsMode.clickable, isResizable: true });
-        columns.push({ key: 'mortal', name: 'm', fieldName: 'mortal', minWidth: 25, maxWidth: 50, columnActionsMode: ColumnActionsMode.clickable, isResizable: true });
-        columns.push({ key: 'critical', name: 'c', fieldName: 'critical', minWidth: 25, maxWidth: 50, columnActionsMode: ColumnActionsMode.clickable, isResizable: true });
-        columns.push({ key: 'crew', name: 'Crew', fieldName: 'crew', minWidth: 50, maxWidth: 75, columnActionsMode: ColumnActionsMode.clickable, isResizable: true });
-        columns.push({ key: 'cost', name: 'Cost', fieldName: 'cost', minWidth: 50, maxWidth: 100, columnActionsMode: ColumnActionsMode.clickable, isResizable: true, onRender: HullPanelColumnsRenderer.renderCost });
-
-        return columns;
-    }
-
-    private static renderHullPoints(item?: any, index?: number, column?: IColumn): any {
-        if (item instanceof HullPart) {
-            if (item.bonusHullPoints === 0) {
-                return `${item.hullPoints}`;
-            } else {
-                return `${item.hullPoints} (+${item.bonusHullPoints})`;
-            }
-        }
-    }
-
-    private static renderToughness(item?: any, index?: number, column?: IColumn): any {
-        if (item instanceof HullPart) {
-            switch (item.toughness) {
-                case Toughness.Good:
-                    return "(Gd)";
-                case Toughness.Small:
-                    return "Sm";
-                case Toughness.Light:
-                    return "Lt";
-                case Toughness.Medium:
-                    return "Md";
-                case Toughness.Heavy:
-                    return "Hv";
-                case Toughness.SuperHeavy:
-                    return "SHv";
-                default:
-                    return "-";
-            }
-        }
-    }
-
-    private static renderTargetModifier(item?: any, index?: number, column?: IColumn): any {
-        if (item instanceof HullPart) {
-            if (item.targetModifier === 0) {
-                return "0";
-            } else if (item.targetModifier === 1 || item.targetModifier === -1) {
-                return `${item.targetModifier} step`;
-            } else {
-                return `${item.targetModifier} steps`;
-            }
-        }
-    }
-
-    private static renderCost(item?: any, index?: number, column?: IColumn): any {
-        if (item instanceof HullPart) {
-            if (item.cost >= 0 && item.cost < 1000000) {
-                return `${item.cost / 1000} K`;
-            } else {
-                return `${item.cost / 1000000} M`;
-            }
-        }
     }
 }
