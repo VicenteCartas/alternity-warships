@@ -1,6 +1,6 @@
 export enum HullType {
-    Military,
-    Civilian,
+    Military = "military",
+    Civilian = "civilian",
 }
 
 export enum HullSize {
