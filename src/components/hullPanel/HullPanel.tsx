@@ -1,6 +1,6 @@
 // tslint:disable: max-line-length
 
-import { ColumnActionsMode, DetailsList, DetailsListLayoutMode, Dropdown, IColumn, IDropdownOption, IGroup, ISelection, Stack, TextField } from "office-ui-fabric-react";
+import { ColumnActionsMode, DetailsList, DetailsListLayoutMode, Dropdown, IColumn, IDropdownOption, IGroup, Selection, SelectionMode, Stack } from "office-ui-fabric-react";
 import React, { useMemo } from "react";
 import { HullPartFactory } from "../../model/factories/HullPartFactory";
 import { HullPart, Toughness } from "../../model/parts/HullPart";
@@ -10,39 +10,53 @@ interface IHullPanelProps {
     selectedHull?: HullPart;
     onHullCategorySelected: (category: string) => void;
     onHullSelected: (hull: HullPart) => void;
-    // selection?: ISelection;
-    // onListFiltered: (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string | undefined) => void;
-    // onItemSelected: (item?: any, index?: number | undefined, ev?: Event | undefined) => void;
-    // onColumnHeaderClicked: (event?: React.MouseEvent<HTMLElement>, column?: IColumn) => void;
 }
 
 export const HullPanel: React.FC<IHullPanelProps> = (props) => {
-    const [groups, hulls] = buildGroups(props.selectedHullCategory);
+    const [groups, hulls] = useMemo(() => buildGroups(props.selectedHullCategory), [props.selectedHullCategory]);
+    const selection: Selection = new Selection({onSelectionChanged: () => handleSelection()});
+
+    const handleSelection: () => void = () => {
+        let index = -1;
+        if (selection.getSelectedIndices().length > 0) {
+            index = selection.getSelectedIndices()[0];
+            props.onHullSelected(hulls[index]);
+        }
+    };
+
+    if (props.selectedHull) {
+        let index;
+        for (let i = 0; i < hulls.length; i++) {
+            if (hulls[i].name === props.selectedHull.name) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index) {
+            selection.setIndexSelected(index, true, false);
+        }
+    }
 
     return (
-        <div>
-            <Stack horizontal gap={20} >
-                <TextField
-                    label="Filter by name:"
-                    // onChange={props.onListFiltered}
-                    styles={{ root: { maxWidth: "300px" } }} />
-                <Dropdown
-                    label="Hull category"
-                    options={buildHullTypesOptions()}
-                    defaultSelectedKey={props.selectedHullCategory}
-                    onChange={(event, option, index) => props.onHullCategorySelected((option) ? option.key.toString() : "military")} />
-            </Stack>
+        <Stack>
+            <Dropdown
+                label="Hull category"
+                options={buildHullTypesOptions()}
+                defaultSelectedKey={props.selectedHullCategory}
+                onChange={(event, option, index) => props.onHullCategorySelected((option) ? option.key.toString() : "military")}
+                styles={{dropdown: {width: 125}}} />
             <DetailsList
+                layoutMode={DetailsListLayoutMode.justified}
+                compact={true}
                 columns={buildColumns()}
                 groups={groups}
                 items={hulls}
-                setKey="set"
-                layoutMode={DetailsListLayoutMode.justified}
-                // selection={props.selection}
-                // onItemInvoked={props.onItemSelected}
-                // onColumnHeaderClick={props.onColumnHeaderClicked}
-                />
-        </div>
+                setKey="selectionKey"
+                selectionMode={SelectionMode.single}
+                selectionPreservedOnEmptyClick={true}
+                selection={selection} />
+        </Stack>
     );
 };
 
@@ -61,25 +75,31 @@ function buildGroups(category: string): [IGroup[], HullPart[]] {
     let hulls: HullPart[] = [];
     let start = 0;
 
-    if (category === "military") {
-        hulls = [...hulls, ...HullPartFactory.smallCraftMilitary()];
-        groups.push({ key: "smallCraft", name: "Small craft", startIndex: start, count: hulls.length });
+    switch (category) {
+        case "civilian": {
+            break;
+        }
 
-        start += groups[0].count;
-        hulls = [...hulls, ...HullPartFactory.lightMilitary()];
-        groups.push({ key: "lightShips", name: "Light ships", startIndex: start, count: hulls.length - start });
+        default: {
+            hulls = [...hulls, ...HullPartFactory.smallCraftMilitary()];
+            groups.push({ key: "smallCraft", name: "Small craft", startIndex: start, count: hulls.length });
 
-        start += groups[1].count;
-        hulls = [...hulls, ...HullPartFactory.mediumMilitary()];
-        groups.push({ key: "mediumShips", name: "Medium ships", startIndex: start, count: hulls.length - start });
+            start += groups[0].count;
+            hulls = [...hulls, ...HullPartFactory.lightMilitary()];
+            groups.push({ key: "lightShips", name: "Light ships", startIndex: start, count: hulls.length - start });
 
-        start += groups[2].count;
-        hulls = [...hulls, ...HullPartFactory.heavyMilitary()];
-        groups.push({ key: "heavyShips", name: "Heavy ships", startIndex: start, count: hulls.length - start });
+            start += groups[1].count;
+            hulls = [...hulls, ...HullPartFactory.mediumMilitary()];
+            groups.push({ key: "mediumShips", name: "Medium ships", startIndex: start, count: hulls.length - start });
 
-        start += groups[3].count;
-        hulls = [...hulls, ...HullPartFactory.superHeavyMilitary()];
-        groups.push({ key: "superHeavyShips", name: "Super-heavy ships", startIndex: start, count: hulls.length - start });
+            start += groups[2].count;
+            hulls = [...hulls, ...HullPartFactory.heavyMilitary()];
+            groups.push({ key: "heavyShips", name: "Heavy ships", startIndex: start, count: hulls.length - start });
+
+            start += groups[3].count;
+            hulls = [...hulls, ...HullPartFactory.superHeavyMilitary()];
+            groups.push({ key: "superHeavyShips", name: "Super-heavy ships", startIndex: start, count: hulls.length - start });
+        }
     }
 
     return [groups, hulls];

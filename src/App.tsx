@@ -1,5 +1,5 @@
 import { FluentCustomizations } from "@uifabric/fluent-theme";
-import { Customizer, Pivot, PivotItem, Stack } from "office-ui-fabric-react";
+import { Customizer, Pivot, PivotItem } from "office-ui-fabric-react";
 import { initializeIcons } from "office-ui-fabric-react/lib/Icons";
 import React, { useReducer } from "react";
 import { HullPanel } from "./components/hullPanel/HullPanel";
@@ -34,11 +34,19 @@ function appReducer(state: IAppState, action: IAction): IAppState {
       };
     }
     case "SET_HULL":
-      return {
-        ...state,
-        selectedHull: action.payload,
-        selectedHullCategory: (action.payload as HullPart).hullType.toString(),
-      };
+      const newSelectedHull = (action.payload as HullPart).hullType.toString();
+      if (state.selectedHullCategory !== newSelectedHull) {
+        return {
+          ...state,
+          selectedHull: action.payload,
+          selectedHullCategory: newSelectedHull,
+        };
+      } else {
+        return {
+          ...state,
+          selectedHull: action.payload,
+        };
+      }
 
     default:
       throw new Error();
