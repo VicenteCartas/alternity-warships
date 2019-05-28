@@ -1,6 +1,6 @@
 import { ProgressLevel, ShipPart, Technology } from "./ShipPart";
 
-export enum ArmorType {
+export enum ArmorCategory {
     Light = "Light",
     Medium = "Medium",
     Heavy = "Heavy",
@@ -8,8 +8,8 @@ export enum ArmorType {
 }
 
 export class ArmorPart extends ShipPart {
-    public get ArmorType(): ArmorType {
-        return this._armorType;
+    public get ArmorCategory(): ArmorCategory {
+        return this._armorCategory;
     }
 
     public get li(): string {
@@ -25,19 +25,29 @@ export class ArmorPart extends ShipPart {
     }
 
     public get hullPercentage(): number {
-        return this._hullPercentage;
+        switch (this.ArmorCategory) {
+            case ArmorCategory.Light:
+                return 2.5;
+            case ArmorCategory.Medium:
+                return 5;
+            case ArmorCategory.Heavy:
+                return 10;
+            case ArmorCategory.SuperHeavy:
+                return 20;
+            default:
+                throw new Error(`Unknown armor category: ${this.ArmorCategory}`);
+        }
     }
 
     constructor(
     // tslint:disable: variable-name
         name: string,
         pl: ProgressLevel,
-        private readonly _armorType: ArmorType,
+        private readonly _armorCategory: ArmorCategory,
         technologies: Technology[],
         private readonly _li: string,
         private readonly _hi: string,
         private readonly _en: string,
-        private readonly _hullPercentage: number,
         cost: number) {
     // tslint:enable: variable-name
         super(name, pl, technologies, cost);
@@ -52,10 +62,6 @@ export class ArmorPart extends ShipPart {
 
         if (this.en.length < 1) {
             throw new Error("EN value of the armor can't be empty");
-        }
-
-        if (this.hullPercentage <= 0) {
-            throw new Error("Hull Percentage must be a positive number");
         }
     }
 }
