@@ -1,4 +1,4 @@
-import { ShipPart, Technology } from "./ShipPart";
+import { ProgressLevel, ShipPart, Technology } from "./ShipPart";
 
 export enum DamageType {
     LowImpact = "LI",
@@ -88,7 +88,7 @@ export class WeaponPart extends ShipPart {
     constructor(
     // tslint:disable: variable-name
         name: string,
-        pl: number,
+        pl: ProgressLevel,
         technologies: Technology[],
         private readonly _hull: number,
         private readonly _power: number,

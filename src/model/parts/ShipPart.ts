@@ -12,12 +12,19 @@ export enum Technology {
     ComputerTech = "C",
 }
 
+export enum ProgressLevel {
+    PL6 = "Progress Level 6: Fusion Age",
+    PL7 = "Progress Level 7: Gravity Age",
+    PL8 = "Progress Level 8: Energy Age",
+    PL9 = "Progress Level 9: Matter Age",
+}
+
 export abstract class ShipPart {
     public get name(): string {
         return this._name;
     }
 
-    public get pl(): number {
+    public get pl(): ProgressLevel {
         return this._pl;
     }
 
@@ -32,7 +39,7 @@ export abstract class ShipPart {
     constructor(
     // tslint:disable: variable-name
         private readonly _name: string,
-        private readonly _pl: number,
+        private readonly _pl: ProgressLevel,
         private readonly _technologies: Technology[],
         private readonly _cost: number) {
     // tslint:enable: variable-name
@@ -41,12 +48,8 @@ export abstract class ShipPart {
             throw new Error("Name of the component can't be empty");
         }
 
-        if (this.pl < 5 || this.pl > 9) {
-            throw new Error("Progress Level (PL) of the component must be between 5 and 9");
-        }
-
         if (this.cost < 0) {
-            throw new Error("Cost of the compoentn can't be negative.")
+            throw new Error("Cost of the compoentn can't be negative.");
         }
     }
 }

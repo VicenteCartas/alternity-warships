@@ -2,7 +2,7 @@
 
 import { ColumnActionsMode, DetailsList, DetailsListLayoutMode, Dropdown, IColumn, IDropdownOption, IGroup, Selection, SelectionMode, Stack } from "office-ui-fabric-react";
 import React, { useMemo } from "react";
-import { HullPartFactory } from "../../model/factories/HullPartFactory";
+import * as factory from "../../model/factories/HullPartFactory";
 import { HullPart, Toughness } from "../../model/parts/HullPart";
 
 interface IHullPanelProps {
@@ -77,27 +77,45 @@ function buildGroups(category: string): [IGroup[], HullPart[]] {
 
     switch (category) {
         case "civilian": {
+            hulls = [...hulls, ...factory.smallCraftCivilian()];
+            groups.push({ key: "smallCraft", name: "Small craft", startIndex: start, count: hulls.length });
+
+            start += groups[0].count;
+            hulls = [...hulls, ...factory.lightCivilian()];
+            groups.push({ key: "lightShips", name: "Light ships", startIndex: start, count: hulls.length - start });
+
+            start += groups[1].count;
+            hulls = [...hulls, ...factory.mediumCivilian()];
+            groups.push({ key: "mediumShips", name: "Medium ships", startIndex: start, count: hulls.length - start });
+
+            start += groups[2].count;
+            hulls = [...hulls, ...factory.heavyCivilian()];
+            groups.push({ key: "heavyShips", name: "Heavy ships", startIndex: start, count: hulls.length - start });
+
+            start += groups[3].count;
+            hulls = [...hulls, ...factory.superHeavyCivilian()];
+            groups.push({ key: "superHeavyShips", name: "Super-heavy ships", startIndex: start, count: hulls.length - start });
             break;
         }
 
         default: {
-            hulls = [...hulls, ...HullPartFactory.smallCraftMilitary()];
+            hulls = [...hulls, ...factory.smallCraftMilitary()];
             groups.push({ key: "smallCraft", name: "Small craft", startIndex: start, count: hulls.length });
 
             start += groups[0].count;
-            hulls = [...hulls, ...HullPartFactory.lightMilitary()];
+            hulls = [...hulls, ...factory.lightMilitary()];
             groups.push({ key: "lightShips", name: "Light ships", startIndex: start, count: hulls.length - start });
 
             start += groups[1].count;
-            hulls = [...hulls, ...HullPartFactory.mediumMilitary()];
+            hulls = [...hulls, ...factory.mediumMilitary()];
             groups.push({ key: "mediumShips", name: "Medium ships", startIndex: start, count: hulls.length - start });
 
             start += groups[2].count;
-            hulls = [...hulls, ...HullPartFactory.heavyMilitary()];
+            hulls = [...hulls, ...factory.heavyMilitary()];
             groups.push({ key: "heavyShips", name: "Heavy ships", startIndex: start, count: hulls.length - start });
 
             start += groups[3].count;
-            hulls = [...hulls, ...HullPartFactory.superHeavyMilitary()];
+            hulls = [...hulls, ...factory.superHeavyMilitary()];
             groups.push({ key: "superHeavyShips", name: "Super-heavy ships", startIndex: start, count: hulls.length - start });
         }
     }

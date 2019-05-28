@@ -1,4 +1,4 @@
-export enum HullType {
+export enum HullCategory {
     Military = "military",
     Civilian = "civilian",
 }
@@ -25,7 +25,7 @@ export class HullPart {
         return this._name;
     }
 
-    public get hullType(): HullType {
+    public get hullType(): HullCategory {
         return this._hullType;
     }
 
@@ -107,7 +107,7 @@ export class HullPart {
     constructor(
     // tslint:disable: variable-name
         private readonly _name: string,
-        private readonly _hullType: HullType,
+        private readonly _hullType: HullCategory,
         private readonly _hullSize: HullSize,
         private readonly _hullPoints: number,
         private readonly _toughness: Toughness,

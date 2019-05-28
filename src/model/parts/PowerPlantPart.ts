@@ -1,4 +1,4 @@
-import { ShipPart, Technology } from "./ShipPart";
+import { ProgressLevel, ShipPart, Technology } from "./ShipPart";
 
 export class PowerPlantPart extends ShipPart {
     public get powerProduced(): number {
@@ -32,7 +32,7 @@ export class PowerPlantPart extends ShipPart {
     constructor(
     // tslint:disable: variable-name
         name: string,
-        pl: number,
+        pl: ProgressLevel,
         technologies: Technology[],
         private readonly _powerProduced: number,
         baseCost: number,

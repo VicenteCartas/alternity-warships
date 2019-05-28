@@ -1,4 +1,4 @@
-import { ShipPart, Technology } from "./ShipPart";
+import { ProgressLevel, ShipPart, Technology } from "./ShipPart";
 
 export enum ArmorType {
     Light = "Light",
@@ -31,7 +31,7 @@ export class ArmorPart extends ShipPart {
     constructor(
     // tslint:disable: variable-name
         name: string,
-        pl: number,
+        pl: ProgressLevel,
         private readonly _armorType: ArmorType,
         technologies: Technology[],
         private readonly _li: string,
