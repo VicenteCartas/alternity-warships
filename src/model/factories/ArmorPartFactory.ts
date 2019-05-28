@@ -36,7 +36,12 @@ function pl7(): ArmorPart[] {
 function pl8(): ArmorPart[] {
     const armors: ArmorPart[] = [];
 
-    armors.push(new ArmorPart("Cerametal", ProgressLevel.PL7, ArmorCategory.Light, [], "d6-1", "d6-1", "d6-1", 100000));
+    armors.push(new ArmorPart("Crystallis", ProgressLevel.PL8, ArmorCategory.Light, [Technology.PsiTech, Technology.EnergyTransformation], "d6-1", "d6", "d6+2", 250000));
+    armors.push(new ArmorPart("Nanofluidic", ProgressLevel.PL8, ArmorCategory.Light, [Technology.SuperMaterials, Technology.ComputerTech], "d8-1", "d8-1", "d8", 500000));
+    armors.push(new ArmorPart("Crystallis", ProgressLevel.PL8, ArmorCategory.Medium, [Technology.PsiTech, Technology.EnergyTransformation], "d6", "d6+1", "2d4+1", 500000));
+    armors.push(new ArmorPart("Nanofluidic", ProgressLevel.PL8, ArmorCategory.Medium, [Technology.SuperMaterials, Technology.ComputerTech], "2d4", "2d4", "2d4", 1000000));
+    armors.push(new ArmorPart("Nanofluidic", ProgressLevel.PL8, ArmorCategory.Heavy, [Technology.SuperMaterials, Technology.ComputerTech], "2d4+1", "2d4+2", "2d4+1", 2000000));
+    armors.push(new ArmorPart("Nanofluidic", ProgressLevel.PL8, ArmorCategory.SuperHeavy, [Technology.SuperMaterials, Technology.ComputerTech], "2d4+3", "2d4+4", "2d4+3", 4000000));
 
     return armors;
 }

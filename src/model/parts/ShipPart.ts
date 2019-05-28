@@ -49,7 +49,7 @@ export abstract class ShipPart {
         }
 
         if (this.cost < 0) {
-            throw new Error("Cost of the compoentn can't be negative.");
+            throw new Error("Cost of the component can't be negative.");
         }
     }
 }
