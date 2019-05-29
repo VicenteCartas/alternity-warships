@@ -1,5 +1,5 @@
 import { PowerPlantPart } from "../parts/PowerPlantPart";
-import { Technology } from "../parts/ShipPart";
+import { ProgressLevel, Technology } from "../parts/ShipPart";
 
 export class PowerPlantPartFactory {
     public static getDefault(): PowerPlantPart[] {
@@ -8,7 +8,7 @@ export class PowerPlantPartFactory {
         // PL 6 Power Plants
         powerPlants.push(new PowerPlantPart(
             "Solar Cell",
-            6,
+            ProgressLevel.PL6,
             [Technology.SuperMaterials],
             1.5,
             500000,
@@ -18,7 +18,7 @@ export class PowerPlantPartFactory {
 
         powerPlants.push(new PowerPlantPart(
             "Fission Generator",
-            6,
+            ProgressLevel.PL6,
             [],
             1.5,
             1000000,
@@ -28,7 +28,7 @@ export class PowerPlantPartFactory {
 
         powerPlants.push(new PowerPlantPart(
             "Fusion Generator",
-            6,
+            ProgressLevel.PL6,
             [Technology.FusionTech],
             2,
             1000000,
@@ -40,7 +40,7 @@ export class PowerPlantPartFactory {
 
         powerPlants.push(new PowerPlantPart(
             "Grav-fusion Cell",
-            6,
+            ProgressLevel.PL6,
             [Technology.GravityManipulation],
             2.5,
             2000000,
@@ -52,7 +52,7 @@ export class PowerPlantPartFactory {
 
         powerPlants.push(new PowerPlantPart(
             "Fuel Tank",
-            6,
+            ProgressLevel.PL6,
             [],
             0,
             50000,

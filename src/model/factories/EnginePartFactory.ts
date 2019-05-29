@@ -1,5 +1,5 @@
 import { EnginePart } from "../parts/EnginePart";
-import { Technology } from "../parts/ShipPart";
+import { ProgressLevel, Technology } from "../parts/ShipPart";
 
 export class EnginePartFactory {
     public static getDefault(): EnginePart[] {
@@ -8,7 +8,7 @@ export class EnginePartFactory {
         // PL 6 Engines
         engines.push(new EnginePart(
             "Planetary thruster",
-            6,
+            ProgressLevel.PL6,
             [],
             1.0,
             1,
@@ -27,7 +27,7 @@ export class EnginePartFactory {
 
         engines.push(new EnginePart(
             "Photon sail",
-            6,
+            ProgressLevel.PL6,
             [],
             0,
             5,
@@ -44,7 +44,7 @@ export class EnginePartFactory {
 
         engines.push(new EnginePart(
             "Fusion torch",
-            6,
+            ProgressLevel.PL6,
             [],
             0.33,
             3,
@@ -63,7 +63,7 @@ export class EnginePartFactory {
 
         engines.push(new EnginePart(
             "Ion engine",
-            6,
+            ProgressLevel.PL6,
             [Technology.SuperMaterials],
             0.5,
             2,
