@@ -17,7 +17,7 @@ export const HullPanel: React.FC<IHullPanelProps> = (props) => {
     const selection: Selection = new Selection({onSelectionChanged: () => handleSelection()});
 
     const handleSelection: () => void = () => {
-        let index = -1;
+        let index;
         if (selection.getSelectedIndices().length > 0) {
             index = selection.getSelectedIndices()[0];
             props.onHullSelected(hulls[index]);
@@ -60,7 +60,7 @@ export const HullPanel: React.FC<IHullPanelProps> = (props) => {
     );
 };
 
-// Initial data
+// Data
 function buildHullTypesOptions() {
     const hullTypesOptions: IDropdownOption[] = [];
 

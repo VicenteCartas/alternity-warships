@@ -2,7 +2,7 @@
 import { ArmorCategory, ArmorPart } from "../parts/ArmorPart";
 import { ProgressLevel, Technology } from "../parts/ShipPart";
 
-function pl6(): ArmorPart[] {
+export function pl6(): ArmorPart[] {
     const armors: ArmorPart[] = [];
 
     armors.push(new ArmorPart("Polymeric", ProgressLevel.PL6, ArmorCategory.Light, [], "d4-1", "d4-1", "d4-2", 50000));
@@ -17,7 +17,7 @@ function pl6(): ArmorPart[] {
     return armors;
 }
 
-function pl7(): ArmorPart[] {
+export function pl7(): ArmorPart[] {
     const armors: ArmorPart[] = [];
 
     armors.push(new ArmorPart("Cerametal", ProgressLevel.PL7, ArmorCategory.Light, [], "d6-1", "d6-1", "d6-1", 100000));
@@ -33,7 +33,7 @@ function pl7(): ArmorPart[] {
     return armors;
 }
 
-function pl8(): ArmorPart[] {
+export function pl8(): ArmorPart[] {
     const armors: ArmorPart[] = [];
 
     armors.push(new ArmorPart("Crystallis", ProgressLevel.PL8, ArmorCategory.Light, [Technology.PsiTech, Technology.EnergyTransformation], "d6-1", "d6", "d6+2", 250000));
