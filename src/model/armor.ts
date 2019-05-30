@@ -18,7 +18,8 @@ export class Armor {
 
     public validate(): Error | null {
         if (this._hull.hullSize === HullSize.SmallCraft &&
-            (this._part.ArmorCategory === ArmorCategory.Heavy || this._part.ArmorCategory === ArmorCategory.SuperHeavy)) {
+            (this._part.ArmorCategory === ArmorCategory.Heavy ||
+             this._part.ArmorCategory === ArmorCategory.SuperHeavy)) {
             return new Error(`Small craft can't use ${this._part.ArmorCategory.toString().toLowerCase()} armor`);
         }
 

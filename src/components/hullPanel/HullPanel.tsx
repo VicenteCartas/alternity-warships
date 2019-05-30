@@ -1,6 +1,6 @@
 // tslint:disable: max-line-length
 
-import { ColumnActionsMode, DetailsList, DetailsListLayoutMode, Dropdown, IColumn, IDropdownOption, IGroup, Selection, SelectionMode, Stack } from "office-ui-fabric-react";
+import { ColumnActionsMode, DetailsList, DetailsListLayoutMode, Dropdown, IColumn, IDropdownOption, IGroup, Label, Selection, SelectionMode, Stack } from "office-ui-fabric-react";
 import React, { useMemo } from "react";
 import * as factory from "../../model/factories/HullPartFactory";
 import { HullPart, Toughness } from "../../model/parts/HullPart";
@@ -29,13 +29,15 @@ export const HullPanel: React.FC<IHullPanelProps> = (props) => {
     }
 
     return (
-        <Stack>
-            <Dropdown
-                label="Hull category"
-                options={buildHullTypesOptions()}
-                defaultSelectedKey={props.selectedHullCategory}
-                onChange={(event, option, index) => props.onHullCategorySelected((option) ? option.key.toString() : "military")}
-                styles={{dropdown: {width: 125}}} />
+        <Stack gap={5}>
+            <Stack horizontal gap={10}>
+                <Label>Hull category</Label>
+                <Dropdown
+                    options={buildHullTypesOptions()}
+                    defaultSelectedKey={props.selectedHullCategory}
+                    onChange={(event, option, index) => props.onHullCategorySelected((option) ? option.key.toString() : "military")}
+                    styles={{dropdown: {width: 125}}} />
+            </Stack>
             <DetailsList
                 layoutMode={DetailsListLayoutMode.justified}
                 compact={true}

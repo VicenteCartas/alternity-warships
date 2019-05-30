@@ -39,6 +39,10 @@ export class ArmorPart extends ShipPart {
         }
     }
 
+    public get key(): string {
+        return `${this.name}-${this.ArmorCategory}`;
+    }
+
     constructor(
     // tslint:disable: variable-name
         name: string,

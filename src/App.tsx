@@ -1,9 +1,10 @@
 import { FluentCustomizations } from "@uifabric/fluent-theme";
-import { Customizer, Pivot, PivotItem } from "office-ui-fabric-react";
+import { Customizer, Pivot, PivotItem, Stack } from "office-ui-fabric-react";
 import { initializeIcons } from "office-ui-fabric-react/lib/Icons";
 import React, { useReducer } from "react";
 import { ArmorPanel } from "./components/armorPanel/ArmorPanel";
 import { HullPanel } from "./components/hullPanel/HullPanel";
+import { ShipInfoPanel } from "./components/shipInfo/ShipInfoPanel";
 import { ArmorPart } from "./model/parts/ArmorPart";
 import { HullPart } from "./model/parts/HullPart";
 
@@ -15,6 +16,7 @@ export interface IAction {
 }
 
 interface IAppState {
+  shipName: string;
   selectedHull?: HullPart;
   selectedHullCategory: string;
   selectedArmor?: ArmorPart;
@@ -24,6 +26,7 @@ const initialAppState: IAppState = {
   selectedArmor: undefined,
   selectedHull: undefined,
   selectedHullCategory: "military",
+  shipName: "",
 };
 
 function appReducer(state: IAppState, action: IAction): IAppState {
@@ -44,16 +47,21 @@ function appReducer(state: IAppState, action: IAction): IAppState {
           selectedHull: action.payload,
           selectedHullCategory: (action.payload as HullPart).hullType.toString(),
         };
+      } else {
+        return state;
       }
-
-      return state;
     }
 
     case "SET_ARMOR": {
-      return {
-        ...state,
-        selectedArmor: action.payload,
-      };
+      if (state.selectedArmor === undefined ||
+          state.selectedArmor!.key !== action.payload.key) {
+        return {
+          ...state,
+          selectedArmor: action.payload,
+        };
+      } else {
+        return state;
+      }
     }
 
     default:
@@ -66,21 +74,24 @@ const App: React.FC<{}> = () => {
 
   return (
     <Customizer {...FluentCustomizations}>
-      <Pivot>
-        <PivotItem headerText = "Hulls">
-          <HullPanel
-            selectedHullCategory={dataState.selectedHullCategory}
-            selectedHull={dataState.selectedHull}
-            onHullCategorySelected={(category: string) => dispatch({payload: category, type: "SET_HULL_CATEGORY"})}
-            onHullSelected={(hull: HullPart) => dispatch({payload: hull, type: "SET_HULL"})} />
-        </PivotItem>
-        <PivotItem headerText="Armor">
-        <ArmorPanel
-            selectedHull={dataState.selectedHull}
-            selectedArmor={dataState.selectedArmor}
-            onArmorSelected={(armor: ArmorPart) => dispatch({payload: armor, type: "SET_ARMOR"})} />
-        </PivotItem>
-      </Pivot>
+      <Stack>
+        <ShipInfoPanel onNameChanged={(newName: string) => dispatch({payload: newName, type: "SET_NAME"})} />
+        <Pivot>
+          <PivotItem headerText = "Hulls">
+            <HullPanel
+              selectedHullCategory={dataState.selectedHullCategory}
+              selectedHull={dataState.selectedHull}
+              onHullCategorySelected={(category: string) => dispatch({payload: category, type: "SET_HULL_CATEGORY"})}
+              onHullSelected={(hull: HullPart) => dispatch({payload: hull, type: "SET_HULL"})} />
+          </PivotItem>
+          <PivotItem headerText="Armor">
+          <ArmorPanel
+              selectedHull={dataState.selectedHull}
+              selectedArmor={dataState.selectedArmor}
+              onArmorSelected={(armor: ArmorPart) => dispatch({payload: armor, type: "SET_ARMOR"})} />
+          </PivotItem>
+        </Pivot>
+      </Stack>
     </Customizer>
   );
 };

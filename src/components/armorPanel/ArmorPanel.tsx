@@ -16,27 +16,17 @@ interface IArmorPanelProps {
 export const ArmorPanel: React.FC<IArmorPanelProps> = (props) => {
     const [groups, armors] = buildGroups();
     const selection: Selection = new Selection({onSelectionChanged: () => handleSelection()});
+    selection.setItems(armors, true);
 
     const handleSelection: () => void = () => {
-        let index;
-        if (selection.getSelectedIndices().length > 0) {
-            index = selection.getSelectedIndices()[0];
-            props.onArmorSelected(armors[index]);
+        const selectedItems = selection.getSelection();
+        if (selectedItems.length > 0) {
+            props.onArmorSelected(selectedItems[0] as ArmorPart);
         }
     };
 
     if (props.selectedArmor) {
-        let index;
-        for (let i = 0; i < armors.length; i++) {
-            if (armors[i].name === props.selectedArmor.name) {
-                index = i;
-                break;
-            }
-        }
-
-        if (index) {
-            selection.setIndexSelected(index, true, false);
-        }
+        selection.setKeySelected(props.selectedArmor.key, true, false);
     }
 
     return (
@@ -77,7 +67,7 @@ function buildGroups(): [IGroup[], ArmorPart[]] {
 function buildColumns(hull?: HullPart): IColumn[] {
     const columns: IColumn[] = [];
 
-    columns.push({ key: "type", name: "Armor Type", fieldName: "name", minWidth: 75, maxWidth: 200, columnActionsMode: ColumnActionsMode.clickable, isResizable: true });
+    columns.push({ key: "type", name: "Armor Type", fieldName: "name", minWidth: 75, maxWidth: 200, columnActionsMode: ColumnActionsMode.clickable, isResizable: true, onRender: renderType });
     columns.push({ key: "tech", name: "Tech", fieldName: "technologies", minWidth: 50, maxWidth: 100, columnActionsMode: ColumnActionsMode.clickable, isResizable: true, onRender: renderTechnologies });
     columns.push({ key: "li", name: "LI", fieldName: "li", minWidth: 50, maxWidth: 75, columnActionsMode: ColumnActionsMode.clickable, isResizable: true });
     columns.push({ key: "hi", name: "HI", fieldName: "hi", minWidth: 50, maxWidth: 75, columnActionsMode: ColumnActionsMode.clickable, isResizable: true });
@@ -86,6 +76,12 @@ function buildColumns(hull?: HullPart): IColumn[] {
     columns.push({ key: "cost", name: "Cost", fieldName: "cost", minWidth: 25, maxWidth: 50, columnActionsMode: ColumnActionsMode.clickable, isResizable: true, onRender: (item?: any) => renderCost(item, hull) });
 
     return columns;
+}
+
+function renderType(item?: any): any {
+    if (item instanceof ArmorPart) {
+        return `${item.name}, ${item.ArmorCategory.toString().toLowerCase()}`;
+    }
 }
 
 function renderTechnologies(item?: any): any {
