@@ -1,3 +1,5 @@
+import { IObjectWithKey } from "office-ui-fabric-react";
+
 export enum HullCategory {
     Military = "military",
     Civilian = "civilian",
@@ -20,7 +22,7 @@ export enum Toughness {
     SuperHeavy = "Super Heavy",
 }
 
-export class HullPart {
+export class HullPart implements IObjectWithKey {
     public get name(): string {
         return this._name;
     }
@@ -102,6 +104,10 @@ export class HullPart {
 
     public get cost(): number {
         return this._cost;
+    }
+
+    public get key(): string {
+        return this._name;
     }
 
     constructor(

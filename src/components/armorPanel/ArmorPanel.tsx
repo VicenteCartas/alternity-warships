@@ -1,7 +1,7 @@
 // tslint:disable: max-line-length
 
-import { ColumnActionsMode, DetailsList, DetailsListLayoutMode, Dropdown, IColumn, IDropdownOption, IGroup, Selection, SelectionMode, Stack } from "office-ui-fabric-react";
-import React, { useMemo } from "react";
+import { ColumnActionsMode, DetailsList, DetailsListLayoutMode, IColumn, IGroup, Selection, SelectionMode } from "office-ui-fabric-react";
+import React from "react";
 import * as factory from "../../model/factories/ArmorPartFactory";
 import { ArmorPart } from "../../model/parts/ArmorPart";
 import { HullPart } from "../../model/parts/HullPart";
@@ -43,7 +43,7 @@ export const ArmorPanel: React.FC<IArmorPanelProps> = (props) => {
             <DetailsList
                 layoutMode={DetailsListLayoutMode.justified}
                 compact={true}
-                columns={buildColumns()}
+                columns={buildColumns(props.selectedHull)}
                 groups={groups}
                 items={armors}
                 setKey="selectionKey"
@@ -101,7 +101,7 @@ function renderTechnologies(item?: any): any {
 function renderHullPoints(item?: any, hull?: HullPart): any {
     if (item instanceof ArmorPart) {
         if (hull) {
-            return `${item.hullPercentage * hull.hullPoints}`;
+            return `${item.hullPercentage * hull.hullPoints / 100}`;
         } else {
             return `${item.hullPercentage}%`;
         }
@@ -111,7 +111,7 @@ function renderHullPoints(item?: any, hull?: HullPart): any {
 function renderCost(item?: any, hull?: HullPart): any {
     if (item instanceof ArmorPart) {
         if (hull) {
-            return `${item.hullPercentage * hull.hullPoints * item.cost}`;
+            return `${item.hullPercentage * hull.hullPoints / 100 * item.cost}`;
         } else {
             return `${item.cost}`;
         }

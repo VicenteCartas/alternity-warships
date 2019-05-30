@@ -15,27 +15,17 @@ interface IHullPanelProps {
 export const HullPanel: React.FC<IHullPanelProps> = (props) => {
     const [groups, hulls] = useMemo(() => buildGroups(props.selectedHullCategory), [props.selectedHullCategory]);
     const selection: Selection = new Selection({onSelectionChanged: () => handleSelection()});
+    selection.setItems(hulls, true);
 
     const handleSelection: () => void = () => {
-        let index;
-        if (selection.getSelectedIndices().length > 0) {
-            index = selection.getSelectedIndices()[0];
-            props.onHullSelected(hulls[index]);
+        const selectedItems = selection.getSelection();
+        if (selectedItems.length > 0) {
+            props.onHullSelected(selectedItems[0] as HullPart);
         }
     };
 
     if (props.selectedHull) {
-        let index;
-        for (let i = 0; i < hulls.length; i++) {
-            if (hulls[i].name === props.selectedHull.name) {
-                index = i;
-                break;
-            }
-        }
-
-        if (index) {
-            selection.setIndexSelected(index, true, false);
-        }
+        selection.setKeySelected(props.selectedHull.key, true, false);
     }
 
     return (

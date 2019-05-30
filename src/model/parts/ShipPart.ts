@@ -1,3 +1,5 @@
+import { IObjectWithKey } from "office-ui-fabric-react";
+
 export enum Technology {
     GravityManipulation = "G",
     DarkMatterTech = "D",
@@ -19,7 +21,7 @@ export enum ProgressLevel {
     PL9 = "Progress Level 9: Matter Age",
 }
 
-export abstract class ShipPart {
+export abstract class ShipPart implements IObjectWithKey {
     public get name(): string {
         return this._name;
     }
@@ -34,6 +36,10 @@ export abstract class ShipPart {
 
     public get cost(): number {
         return this._cost;
+    }
+
+    public get key(): string {
+        return this._name;
     }
 
     constructor(

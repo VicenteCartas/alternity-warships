@@ -21,6 +21,7 @@ interface IAppState {
 }
 
 const initialAppState: IAppState = {
+  selectedArmor: undefined,
   selectedHull: undefined,
   selectedHullCategory: "military",
 };
@@ -36,19 +37,16 @@ function appReducer(state: IAppState, action: IAction): IAppState {
     }
 
     case "SET_HULL": {
-      const newSelectedHull = (action.payload as HullPart).hullType.toString();
-      if (state.selectedHullCategory !== newSelectedHull) {
+      if (state.selectedHull === undefined ||
+          state.selectedHull!.key !== action.payload.key) {
         return {
           ...state,
           selectedHull: action.payload,
-          selectedHullCategory: newSelectedHull,
-        };
-      } else {
-        return {
-          ...state,
-          selectedHull: action.payload,
+          selectedHullCategory: (action.payload as HullPart).hullType.toString(),
         };
       }
+
+      return state;
     }
 
     case "SET_ARMOR": {
