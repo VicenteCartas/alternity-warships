@@ -3,7 +3,7 @@ import { HullPart, HullSize } from "./parts/HullPart";
 
 export class Armor {
     public get size(): number {
-        return this._hull.hullPoints * this._part.hullPercentage / 100.0;
+        return Math.ceil(this._hull.hullPoints * this._part.hullPercentage / 100.0);
     }
 
     public get cost(): number {
@@ -12,8 +12,8 @@ export class Armor {
 
     constructor(
     // tslint:disable: variable-name
-        private readonly _part: ArmorPart,
-        private readonly _hull: HullPart) { }
+        private readonly _hull: HullPart,
+        private readonly _part: ArmorPart) { }
     // tslint:enable: variable-name
 
     public validate(): Error | null {

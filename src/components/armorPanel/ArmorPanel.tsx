@@ -10,7 +10,7 @@ import { ProgressLevel } from "../../model/parts/ShipPart";
 interface IArmorPanelProps {
     selectedHull?: HullPart;
     selectedArmor?: ArmorPart;
-    onArmorSelected: (armor: ArmorPart) => void;
+    onArmorSelected: (armor?: ArmorPart) => void;
 }
 
 export const ArmorPanel: React.FC<IArmorPanelProps> = (props) => {
@@ -19,9 +19,17 @@ export const ArmorPanel: React.FC<IArmorPanelProps> = (props) => {
     selection.setItems(armors, true);
 
     const handleSelection: () => void = () => {
-        const selectedItems = selection.getSelection();
-        if (selectedItems.length > 0) {
-            props.onArmorSelected(selectedItems[0] as ArmorPart);
+        const selectedArmors = selection.getSelection();
+
+        if (selectedArmors.length > 0) {
+            const selectedArmor = selectedArmors[0] as ArmorPart;
+
+            if (!props.selectedArmor ||
+                (selectedArmor.key.localeCompare(props.selectedArmor.key) !== 0)) {
+                props.onArmorSelected(selectedArmor);
+            }
+        } else {
+            props.onArmorSelected(undefined);
         }
     };
 

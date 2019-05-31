@@ -9,7 +9,7 @@ interface IHullPanelProps {
     selectedHullCategory: string;
     selectedHull?: HullPart;
     onHullCategorySelected: (category: string) => void;
-    onHullSelected: (hull: HullPart) => void;
+    onHullSelected: (hull?: HullPart) => void;
 }
 
 export const HullPanel: React.FC<IHullPanelProps> = (props) => {
@@ -18,14 +18,16 @@ export const HullPanel: React.FC<IHullPanelProps> = (props) => {
     selection.setItems(hulls, true);
 
     const handleSelection: () => void = () => {
-        const selectedItems = selection.getSelection();
-        if (selectedItems.length > 0) {
-            const selectedItem: HullPart = selectedItems[0] as HullPart;
+        const selectedHulls = selection.getSelection();
+        if (selectedHulls.length > 0) {
+            const selectedHull: HullPart = selectedHulls[0] as HullPart;
 
-            if (props.selectedHull &&
-                (selectedItem.key !== props.selectedHull!.key)) {
-                props.onHullSelected(selectedItems[0] as HullPart);
+            if (!props.selectedHull ||
+                (selectedHull.key.localeCompare(props.selectedHull.key) !== 0 )) {
+                props.onHullSelected(selectedHull);
             }
+        } else {
+            props.onHullSelected(undefined);
         }
     };
 

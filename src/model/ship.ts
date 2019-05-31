@@ -7,9 +7,9 @@ import { PowerPlant } from "./PowerPlant";
 export class Ship {
     // tslint:disable: variable-name
     private _name: string | null = null;
-    private _hull: HullPart | null = null;
-    private _armorPart: ArmorPart | null = null;
-    private _armor: Armor | null = null;
+    private _hull: HullPart | undefined = undefined;
+    private _armorPart: ArmorPart | undefined = undefined;
+    private _armor: Armor | undefined = undefined;
     private _powerPlant: PowerPlant | null = null;
     // tslint:enable: variable-name
 
@@ -21,24 +21,23 @@ export class Ship {
         this._name = name;
     }
 
-    public get hull(): HullPart | null {
+    public get hull(): HullPart | undefined {
         return this._hull;
     }
 
-    public set hull(newHull: HullPart | null) {
+    public set hull(newHull: HullPart | undefined) {
         if (newHull !== this.hull) {
             this._hull = newHull;
             this.hullChanged();
         }
     }
 
-    public set armorPart(part: ArmorPart) {
-        if (this.hull === null) {
-            return;
-        }
-
+    public set armorPart(part: ArmorPart | undefined) {
         this._armorPart = part;
-        this._armor = new Armor(part, this.hull!);
+
+        if (this.hull && this._armorPart) {
+            this._armor = new Armor(this.hull, this._armorPart);
+        }
     }
 
     public set powerPlantPart(part: PowerPlantPart) {
@@ -49,7 +48,7 @@ export class Ship {
         }
     }
 
-    public get armor(): Armor | null {
+    public get armor(): Armor | undefined {
         return this._armor;
     }
 
@@ -58,7 +57,7 @@ export class Ship {
     }
 
     public get totalHull(): number {
-        if (this.hull === null) {
+        if (!this.hull) {
             return 0;
         }
 
@@ -68,7 +67,7 @@ export class Ship {
     public get usedHull(): number {
         let usedHull = 0;
 
-        if (this.armor !== null) {
+        if (this.armor) {
             usedHull += this.armor.size;
         }
 
@@ -94,11 +93,11 @@ export class Ship {
     public get cost(): number {
         let cost: number = 0;
 
-        if (this.hull !== null) {
+        if (this.hull) {
             cost += this.hull.cost;
         }
 
-        if (this.armor !== null) {
+        if (this.armor) {
             cost += this.armor.cost;
         }
 
@@ -112,7 +111,7 @@ export class Ship {
     public hasValidationErrors(): Error[] {
         const errors = new Array<Error | null>();
 
-        if (this._armor !== null) {
+        if (this._armor) {
             errors.push(this._armor.validate());
         }
 
@@ -121,8 +120,8 @@ export class Ship {
 
     // Regenerate components that depend on the selected hull
     private hullChanged() {
-        if (this._armorPart !== null) {
-            this.armorPart = this._armorPart;
+        if (this.hull && this._armorPart) {
+            this._armor = new Armor(this.hull, this._armorPart);
         }
     }
 }

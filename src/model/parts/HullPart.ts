@@ -67,7 +67,7 @@ export class HullPart implements IObjectWithKey {
             }
         }
 
-        return this.hullPoints * multiplier;
+        return Math.round(this.hullPoints * multiplier);
     }
 
     public get toughness(): Toughness {

@@ -12,7 +12,7 @@ export const ShipName: React.FC<INameUpdaterProps> = (props: INameUpdaterProps) 
             <TextField
                 required
                 label="Warship name"
-                defaultValue={(props.name) ? (props.name) : "USS Enterprise"}
+                defaultValue={(props.name) ? (props.name) : ""}
                 onChange={(event, newValue) => {
                         if (newValue) {
                             props.onNameChanged(newValue);

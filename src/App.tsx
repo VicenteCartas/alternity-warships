@@ -17,21 +17,69 @@ export interface IAction {
 }
 
 interface IAppState {
-  shipName: string;
+  name: string;
   selectedHull?: HullPart;
   selectedHullCategory: string;
   selectedArmor?: ArmorPart;
 }
 
 const initialAppState: IAppState = {
+  name: "USS Enterprise",
   selectedArmor: undefined,
   selectedHull: undefined,
   selectedHullCategory: "military",
-  shipName: "",
 };
+
+const App: React.FC<{}> = () => {
+  const [dataState, dispatch] = useReducer(appReducer, initialAppState);
+
+  return (
+    <Customizer {...FluentCustomizations}>
+      <Stack>
+        <ShipInfoPanel
+          ship={shipFromState(dataState)}
+          onNameChanged={(newName: string) => dispatch({payload: newName, type: "SET_NAME"})} />
+        <Pivot>
+          <PivotItem headerText = "Hulls">
+            <HullPanel
+              selectedHullCategory={dataState.selectedHullCategory}
+              selectedHull={dataState.selectedHull}
+              onHullCategorySelected={(category: string) => dispatch({payload: category, type: "SET_HULL_CATEGORY"})}
+              onHullSelected={(hull?: HullPart) => dispatch({payload: hull, type: "SET_HULL"})} />
+          </PivotItem>
+          <PivotItem headerText="Armor">
+          <ArmorPanel
+              selectedHull={dataState.selectedHull}
+              selectedArmor={dataState.selectedArmor}
+              onArmorSelected={(armor?: ArmorPart) => dispatch({payload: armor, type: "SET_ARMOR"})} />
+          </PivotItem>
+        </Pivot>
+      </Stack>
+    </Customizer>
+  );
+};
+
+export default App;
+
+function shipFromState(state: IAppState): Ship {
+  const ship: Ship = new Ship();
+
+  ship.name = state.name;
+  ship.hull = state.selectedHull;
+  ship.armorPart = state.selectedArmor;
+
+  return ship;
+}
 
 function appReducer(state: IAppState, action: IAction): IAppState {
   switch (action.type) {
+    case "SET_NAME": {
+      return {
+        ...state,
+        name: action.payload,
+      };
+    }
+
     case "SET_HULL_CATEGORY": {
       return {
         ...state,
@@ -41,62 +89,28 @@ function appReducer(state: IAppState, action: IAction): IAppState {
     }
 
     case "SET_HULL": {
-      if (state.selectedHull === undefined ||
-          state.selectedHull!.key !== action.payload.key) {
+      if (action.payload) {
         return {
           ...state,
           selectedHull: action.payload,
-          selectedHullCategory: (action.payload as HullPart).hullType.toString(),
+          selectedHullCategory: (action.payload as HullPart).hullType.toString()
         };
       } else {
-        return state;
+        return {
+          ...state,
+          selectedHull: action.payload,
+        };
       }
     }
 
     case "SET_ARMOR": {
-      if (state.selectedArmor === undefined ||
-          state.selectedArmor!.key !== action.payload.key) {
-        return {
-          ...state,
-          selectedArmor: action.payload,
-        };
-      } else {
-        return state;
-      }
+      return {
+        ...state,
+        selectedArmor: action.payload,
+      };
     }
 
     default:
       throw new Error();
   }
 }
-
-const App: React.FC<{}> = () => {
-  const [dataState, dispatch] = useReducer(appReducer, initialAppState);
-
-  return (
-    <Customizer {...FluentCustomizations}>
-      <Stack>
-        <ShipInfoPanel
-          ship={new Ship()}
-          onNameChanged={(newName: string) => dispatch({payload: newName, type: "SET_NAME"})} />
-        <Pivot>
-          <PivotItem headerText = "Hulls">
-            <HullPanel
-              selectedHullCategory={dataState.selectedHullCategory}
-              selectedHull={dataState.selectedHull}
-              onHullCategorySelected={(category: string) => dispatch({payload: category, type: "SET_HULL_CATEGORY"})}
-              onHullSelected={(hull: HullPart) => dispatch({payload: hull, type: "SET_HULL"})} />
-          </PivotItem>
-          <PivotItem headerText="Armor">
-          <ArmorPanel
-              selectedHull={dataState.selectedHull}
-              selectedArmor={dataState.selectedArmor}
-              onArmorSelected={(armor: ArmorPart) => dispatch({payload: armor, type: "SET_ARMOR"})} />
-          </PivotItem>
-        </Pivot>
-      </Stack>
-    </Customizer>
-  );
-};
-
-export default App;

@@ -43,5 +43,9 @@ export const ShipInfoPanel: React.FC<IShipInfoPanelProps> = (props: IShipInfoPan
 };
 
 function renderCost(cost: number): string {
-    return "0";
+    if (cost >= 0 && cost < 1000000) {
+        return `${cost / 1000} K`;
+    } else {
+        return `${cost / 1000000} M`;
+    }
 }
