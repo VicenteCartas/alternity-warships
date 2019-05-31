@@ -20,7 +20,12 @@ export const HullPanel: React.FC<IHullPanelProps> = (props) => {
     const handleSelection: () => void = () => {
         const selectedItems = selection.getSelection();
         if (selectedItems.length > 0) {
-            props.onHullSelected(selectedItems[0] as HullPart);
+            const selectedItem: HullPart = selectedItems[0] as HullPart;
+
+            if (props.selectedHull &&
+                (selectedItem.key !== props.selectedHull!.key)) {
+                props.onHullSelected(selectedItems[0] as HullPart);
+            }
         }
     };
 
