@@ -7,6 +7,7 @@ import { HullPanel } from "./components/hullPanel/HullPanel";
 import { ShipInfoPanel } from "./components/shipInfo/ShipInfoPanel";
 import { ArmorPart } from "./model/parts/ArmorPart";
 import { HullPart } from "./model/parts/HullPart";
+import { Ship } from "./model/Ship";
 
 initializeIcons();
 
@@ -75,7 +76,9 @@ const App: React.FC<{}> = () => {
   return (
     <Customizer {...FluentCustomizations}>
       <Stack>
-        <ShipInfoPanel onNameChanged={(newName: string) => dispatch({payload: newName, type: "SET_NAME"})} />
+        <ShipInfoPanel
+          ship={new Ship()}
+          onNameChanged={(newName: string) => dispatch({payload: newName, type: "SET_NAME"})} />
         <Pivot>
           <PivotItem headerText = "Hulls">
             <HullPanel
