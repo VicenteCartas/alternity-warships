@@ -115,9 +115,17 @@ function renderHullPoints(item?: any, hull?: HullPart): any {
 function renderCost(item?: any, hull?: HullPart): any {
     if (item instanceof ArmorPart) {
         if (hull) {
-            return `${item.hullPercentage * hull.hullPoints / 100 * item.cost}`;
+            return renderMoney(item.hullPercentage * hull.hullPoints / 100 * item.cost);
         } else {
-            return `${item.cost}`;
+            return renderMoney(item.cost);
         }
+    }
+}
+
+function renderMoney(cost: number): string {
+    if (cost >= 0 && cost < 1000000) {
+        return `${cost / 1000} K`;
+    } else {
+        return `${cost / 1000000} M`;
     }
 }

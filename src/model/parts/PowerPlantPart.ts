@@ -13,20 +13,20 @@ export class PowerPlantPart extends ShipPart {
         return this._minimumSize;
     }
 
-    public get fuelCost(): number | null {
+    public get fuelCost(): number | undefined {
         if (this._fuelCost) {
             return this._fuelCost;
         }
 
-        return null;
+        return undefined;
     }
 
-    public get fuelEfficiency(): number | null {
+    public get fuelEfficiency(): number | undefined {
         if (this._fuelEfficiency) {
             return this._fuelEfficiency;
         }
 
-        return null;
+        return undefined;
     }
 
     constructor(
@@ -55,16 +55,16 @@ export class PowerPlantPart extends ShipPart {
             throw new Error("Minimum size must be 0 or greater");
         }
 
-        if (this.fuelCost !== null && this.fuelCost <= 0) {
+        if (this.fuelCost && this.fuelCost <= 0) {
             throw new Error("Fuel cost must be a positive number");
         }
 
-        if (this.fuelEfficiency !== null && this.fuelEfficiency! <= 0) {
+        if (this.fuelEfficiency && this.fuelEfficiency! <= 0) {
             throw new Error("Fuel efficiency must be a positive number");
         }
 
-        if ((this.fuelEfficiency !== null && this.fuelCost === null) ||
-            (this.fuelEfficiency === null && this.fuelCost !== null)) {
+        if ((this.fuelEfficiency && !this.fuelCost ) ||
+            (!this.fuelEfficiency && this.fuelCost)) {
             throw new Error("If a power plant uses fuel, it needs to define a cost and a efficiency");
         }
     }

@@ -6,11 +6,10 @@ import { initializeIcons } from "office-ui-fabric-react/lib/Icons";
 import React, { useReducer } from "react";
 import { ArmorPanel } from "./components/armorPanel/ArmorPanel";
 import { HullPanel } from "./components/hullPanel/HullPanel";
-import { PowerPlantPanel } from "./components/powerPlantPanel/PowerPlantPanel";
+import { PowerPlantList } from "./components/powerPlantList/PowerPlantList";
 import { ShipInfoPanel } from "./components/shipInfo/ShipInfoPanel";
 import { ArmorPart } from "./model/parts/ArmorPart";
 import { HullPart } from "./model/parts/HullPart";
-import { PowerPlantPart } from "./model/parts/PowerPlantPart";
 import { PowerPlant } from "./model/PowerPlant";
 import { Ship } from "./model/Ship2";
 
@@ -62,11 +61,10 @@ const App: React.FC<{}> = () => {
                 selectedArmor={state.selectedArmor}
                 onArmorSelected={(armor?: ArmorPart) => dispatch({payload: armor, type: "SET_ARMOR"})} />
           </PivotItem>
-          <PivotItem headerText="Power Plant">
-            <PowerPlantPanel
+          <PivotItem headerText="Power plants">
+            <PowerPlantList
                 powerPlants={state.powerPlants}
-                onPowerPlantAdded={(powerPlant: PowerPlant) => dispatch({payload: powerPlant, type: "ADD_POWERPLANT"})}
-                onPowerPlantRemoved={(powerPlant: PowerPlant) => dispatch({payload: powerPlant, type: "REMOVE_POWERPLANT"})} />
+                onPowerPlantsModified={(powerPlants: PowerPlant[]) => dispatch({payload: powerPlants, type: "MODIFY_POWERPLANTS"})} />
           </PivotItem>
         </Pivot>
       </Stack>
@@ -125,17 +123,10 @@ function appReducer(state: IAppState, action: IAction): IAppState {
       };
     }
 
-    case "ADD_POWERPLANT": {
+    case "MODIFY_POWERPLANTS": {
       return {
         ...state,
-        selectedPowerPlant: action.payload,
-      };
-    }
-
-    case "REMOVE_POWERPLANT_SIZE": {
-      return {
-        ...state,
-        powerPlantSize: action.payload,
+        powerPlants: action.payload,
       };
     }
 
