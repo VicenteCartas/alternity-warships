@@ -1,13 +1,18 @@
+// tslint:disable: max-line-length
+
 import { FluentCustomizations } from "@uifabric/fluent-theme";
 import { Customizer, Pivot, PivotItem, Stack } from "office-ui-fabric-react";
 import { initializeIcons } from "office-ui-fabric-react/lib/Icons";
 import React, { useReducer } from "react";
 import { ArmorPanel } from "./components/armorPanel/ArmorPanel";
 import { HullPanel } from "./components/hullPanel/HullPanel";
+import { PowerPlantPanel } from "./components/powerPlantPanel/PowerPlantPanel";
 import { ShipInfoPanel } from "./components/shipInfo/ShipInfoPanel";
 import { ArmorPart } from "./model/parts/ArmorPart";
 import { HullPart } from "./model/parts/HullPart";
-import { Ship } from "./model/Ship";
+import { PowerPlantPart } from "./model/parts/PowerPlantPart";
+import { PowerPlant } from "./model/PowerPlant";
+import { Ship } from "./model/Ship2";
 
 initializeIcons();
 
@@ -21,37 +26,47 @@ interface IAppState {
   selectedHull?: HullPart;
   selectedHullCategory: string;
   selectedArmor?: ArmorPart;
+  powerPlants: PowerPlant[];
 }
 
+// tslint:disable: object-literal-sort-keys
 const initialAppState: IAppState = {
   name: "USS Enterprise",
   selectedArmor: undefined,
   selectedHull: undefined,
   selectedHullCategory: "military",
+  powerPlants: [],
 };
+// tslint:enable: object-literal-sort-keys
 
 const App: React.FC<{}> = () => {
-  const [dataState, dispatch] = useReducer(appReducer, initialAppState);
+  const [state, dispatch] = useReducer(appReducer, initialAppState);
 
   return (
     <Customizer {...FluentCustomizations}>
       <Stack>
         <ShipInfoPanel
-          ship={shipFromState(dataState)}
+          ship={shipFromState(state)}
           onNameChanged={(newName: string) => dispatch({payload: newName, type: "SET_NAME"})} />
         <Pivot>
           <PivotItem headerText = "Hulls">
             <HullPanel
-              selectedHullCategory={dataState.selectedHullCategory}
-              selectedHull={dataState.selectedHull}
+              selectedHullCategory={state.selectedHullCategory}
+              selectedHull={state.selectedHull}
               onHullCategorySelected={(category: string) => dispatch({payload: category, type: "SET_HULL_CATEGORY"})}
               onHullSelected={(hull?: HullPart) => dispatch({payload: hull, type: "SET_HULL"})} />
           </PivotItem>
           <PivotItem headerText="Armor">
-          <ArmorPanel
-              selectedHull={dataState.selectedHull}
-              selectedArmor={dataState.selectedArmor}
-              onArmorSelected={(armor?: ArmorPart) => dispatch({payload: armor, type: "SET_ARMOR"})} />
+            <ArmorPanel
+                selectedHull={state.selectedHull}
+                selectedArmor={state.selectedArmor}
+                onArmorSelected={(armor?: ArmorPart) => dispatch({payload: armor, type: "SET_ARMOR"})} />
+          </PivotItem>
+          <PivotItem headerText="Power Plant">
+            <PowerPlantPanel
+                powerPlants={state.powerPlants}
+                onPowerPlantAdded={(powerPlant: PowerPlant) => dispatch({payload: powerPlant, type: "ADD_POWERPLANT"})}
+                onPowerPlantRemoved={(powerPlant: PowerPlant) => dispatch({payload: powerPlant, type: "REMOVE_POWERPLANT"})} />
           </PivotItem>
         </Pivot>
       </Stack>
@@ -93,7 +108,7 @@ function appReducer(state: IAppState, action: IAction): IAppState {
         return {
           ...state,
           selectedHull: action.payload,
-          selectedHullCategory: (action.payload as HullPart).hullType.toString()
+          selectedHullCategory: (action.payload as HullPart).hullType.toString(),
         };
       } else {
         return {
@@ -110,7 +125,22 @@ function appReducer(state: IAppState, action: IAction): IAppState {
       };
     }
 
+    case "ADD_POWERPLANT": {
+      return {
+        ...state,
+        selectedPowerPlant: action.payload,
+      };
+    }
+
+    case "REMOVE_POWERPLANT_SIZE": {
+      return {
+        ...state,
+        powerPlantSize: action.payload,
+      };
+    }
+
     default:
       throw new Error();
   }
 }
+// tslint:enable: max-line-length

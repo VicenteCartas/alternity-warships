@@ -1,7 +1,7 @@
 import { TextField } from "office-ui-fabric-react";
 import { Stack, StackItem } from "office-ui-fabric-react/lib/components/Stack";
 import React from "react";
-import { Ship } from "../../model/Ship";
+import { Ship } from "../../model/Ship2";
 import { ResourceUse } from "./ResourceUse";
 import { ShipName } from "./ShipName";
 

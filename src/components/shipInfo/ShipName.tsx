@@ -13,12 +13,7 @@ export const ShipName: React.FC<INameUpdaterProps> = (props: INameUpdaterProps) 
                 required
                 label="Warship name"
                 defaultValue={(props.name) ? (props.name) : ""}
-                onChange={(event, newValue) => {
-                        if (newValue) {
-                            props.onNameChanged(newValue);
-                        }
-                    }
-                }/>
+                onChange={(event, newValue) => (newValue) ? props.onNameChanged(newValue) : props.onNameChanged("")} />
         </div>
     );
 };

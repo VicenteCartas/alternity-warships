@@ -1,4 +1,4 @@
-import { Armor } from "./Armor";
+import { Armor } from "./Armor2";
 import { ArmorPart } from "./parts/ArmorPart";
 import { HullPart } from "./parts/HullPart";
 import { PowerPlantPart } from "./parts/PowerPlantPart";
