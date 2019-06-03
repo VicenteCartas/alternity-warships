@@ -6,13 +6,21 @@ import { PowerPlantPart } from "../../model/parts/PowerPlantPart";
 import { ProgressLevel } from "../../model/parts/ShipPart";
 
 interface IPowerPlantPanelProps {
-    onPowerPlantAdded: (powerPlant: PowerPlantPart) => void;
+    onPowerPlantSelected: (powerPlant: PowerPlantPart) => void;
 }
 
 export const PowerPlantPanel: React.FC<IPowerPlantPanelProps> = (props: IPowerPlantPanelProps) => {
     const [groups, powerPlants] = buildGroups();
-    const selection: Selection = new Selection();
+    const selection: Selection = new Selection({onSelectionChanged: () => handleSelection()});
     selection.setItems(powerPlants, true);
+
+    const handleSelection: () => void = () => {
+        const selectedPowerPlants = selection.getSelection();
+        if (selectedPowerPlants.length > 0) {
+            const selectedPowerPlant: PowerPlantPart = selectedPowerPlants[0] as PowerPlantPart;
+            props.onPowerPlantSelected(selectedPowerPlant);
+        }
+    };
 
     return (
         <DetailsList

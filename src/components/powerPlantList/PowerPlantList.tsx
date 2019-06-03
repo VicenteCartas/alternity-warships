@@ -1,5 +1,7 @@
-import { DefaultButton, IconButton, Modal, PrimaryButton, Stack, StackItem } from "office-ui-fabric-react";
+// tslint:disable-next-line:max-line-length
+import { DetailsList, DetailsListLayoutMode, IconButton, Modal, SelectionMode, Stack, StackItem } from "office-ui-fabric-react";
 import React, { useState } from "react";
+import { PowerPlantPart } from "../../model/parts/PowerPlantPart";
 import { PowerPlant } from "../../model/PowerPlant";
 import { PowerPlantPanel } from "./PowerPlantPanel";
 
@@ -10,6 +12,18 @@ interface IPowerPlantPanelProps {
 
 export const PowerPlantList: React.FC<IPowerPlantPanelProps> = (props: IPowerPlantPanelProps) => {
     const [isOpen, setDialogOpen] = useState(false);
+
+    const onNewPowerPlantSelected = (powerPlantPart: PowerPlantPart): void => {
+        setDialogOpen(false);
+        props.onPowerPlantsModified([
+                ...props.powerPlants,
+                new PowerPlant(powerPlantPart, powerPlantPart.minimumSize),
+            ]);
+    };
+
+    const removePowerPlant = (): void => {
+        return;
+    };
 
     return (
         <>
@@ -22,12 +36,19 @@ export const PowerPlantList: React.FC<IPowerPlantPanelProps> = (props: IPowerPla
                             onClick={() => setDialogOpen(true)} />
                         <IconButton
                             iconProps={{ iconName: "Remove" }}
-                            title="Remove Power Plant" ariaLabel="Remove power plant" />
+                            title="Remove Power Plant" ariaLabel="Remove power plant"
+                            onClick={() => removePowerPlant()} />
                     </Stack>
                 </StackItem>
-                <Stack> // TODO: this needs to be a list for selection for removal
-                    {props.powerPlants.map((p) => renderPowerPlant(p))}
-                </Stack>
+                <DetailsList
+                    layoutMode={DetailsListLayoutMode.justified}
+                    compact={true}
+                    columns={buildColumns()}
+                    items={props.powerPlants}
+                    setKey="selectionKey"
+                    selectionMode={SelectionMode.single}
+                    selectionPreservedOnEmptyClick={true}
+                    selection={selection}/>
             </Stack>
             <Modal
                 titleAriaId="Power plants list"
@@ -35,39 +56,8 @@ export const PowerPlantList: React.FC<IPowerPlantPanelProps> = (props: IPowerPla
                 isOpen={isOpen}
                 onDismiss={() => setDialogOpen(false)}>
                 <PowerPlantPanel
-                    onPowerPlantAdded={() => {return; }} />
-                <Stack horizontal gap={10} horizontalAlign="end" >
-                    <PrimaryButton onClick={() => {return; }} text="Add" />
-                    <DefaultButton onClick={() => setDialogOpen(false) } text="Cancel" />
-                </Stack>
+                    onPowerPlantSelected={onNewPowerPlantSelected} />
             </Modal>
         </>
     );
 };
-
-function renderPowerPlant(powerPlant: PowerPlant) {
-    return (<></>);
-}
-
-/*
-
-<Dialog
-                dialogContentProps={{
-                    title: "Power plants",
-                    type: DialogType.normal}}
-                modalProps={{
-                    isBlocking: false,
-                    styles: { main: { maxWidth: 3000 }}
-                }}
-                isBlocking={false}
-                hidden={dialogHidden}
-                onDismiss={() => setDialogHidden(true)}>
-                <PowerPlantPanel
-                    onPowerPlantAdded={() => {return; }} />
-                <DialogFooter>
-                    <PrimaryButton onClick={() => {return; }} text="Add" />
-                    <DefaultButton onClick={() => setDialogHidden(true) } text="Cancel" />
-                </DialogFooter>
-            </Dialog>
-
-*/

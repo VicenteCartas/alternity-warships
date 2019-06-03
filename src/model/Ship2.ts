@@ -10,7 +10,7 @@ export class Ship {
     private _hull: HullPart | undefined = undefined;
     private _armorPart: ArmorPart | undefined = undefined;
     private _armor: Armor | undefined = undefined;
-    private _powerPlant: PowerPlant | null = null;
+    private _powerPlants: PowerPlant[] = []];
     // tslint:enable: variable-name
 
     public get name(): string | null {
@@ -40,20 +40,16 @@ export class Ship {
         }
     }
 
-    public set powerPlantPart(part: PowerPlantPart) {
-        if (this.powerPlant === null) {
-            this._powerPlant = new PowerPlant(part, 0);
-        } else {
-            this._powerPlant = new PowerPlant(part, this.powerPlant.size);
-        }
-    }
-
     public get armor(): Armor | undefined {
         return this._armor;
     }
 
-    public get powerPlant(): PowerPlant | null {
-        return this._powerPlant;
+    public get powerPlants(): PowerPlant[] {
+        return this._powerPlants;
+    }
+
+    public set powerPlants(powerPlants: PowerPlant[]) {
+        this._powerPlants = powerPlants;
     }
 
     public get totalHull(): number {
@@ -71,19 +67,21 @@ export class Ship {
             usedHull += this.armor.size;
         }
 
-        if (this.powerPlant !== null) {
-            usedHull += this.powerPlant.size;
-        }
+        this.powerPlants.forEach((powerPlant) => {
+            usedHull += powerPlant.size;
+        });
 
         return usedHull;
     }
 
     public get powerProduced(): number {
-        if (this.powerPlant === null) {
-            return 0;
-        }
+        let totalPower: number = 0;
 
-        return this.powerPlant.powerProduced;
+        this.powerPlants.forEach((powerPlant) => {
+            totalPower += powerPlant.powerProduced;
+        });
+
+        return totalPower;
     }
 
     public get powerConsumed(): number {
@@ -101,9 +99,9 @@ export class Ship {
             cost += this.armor.cost;
         }
 
-        if (this.powerPlant !== null) {
-            cost += this.powerPlant.cost;
-        }
+        this.powerPlants.forEach((powerPlant) => {
+            cost += powerPlant.cost;
+        });
 
         return cost;
     }

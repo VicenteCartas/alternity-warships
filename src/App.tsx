@@ -80,6 +80,7 @@ function shipFromState(state: IAppState): Ship {
   ship.name = state.name;
   ship.hull = state.selectedHull;
   ship.armorPart = state.selectedArmor;
+  ship.powerPlants = state.powerPlants;
 
   return ship;
 }
