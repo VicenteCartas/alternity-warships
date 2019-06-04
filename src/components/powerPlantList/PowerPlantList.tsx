@@ -1,6 +1,6 @@
 // tslint:disable-next-line:max-line-length
-import { DetailsList, DetailsListLayoutMode, IconButton, Modal, SelectionMode, Stack, StackItem } from "office-ui-fabric-react";
-import React, { useState } from "react";
+import { ColumnActionsMode, DetailsList, DetailsListLayoutMode, IColumn, IconButton, Modal, Selection, SelectionMode, SpinButton, Stack, StackItem } from "office-ui-fabric-react";
+import React, { ReactNode, useState } from "react";
 import { PowerPlantPart } from "../../model/parts/PowerPlantPart";
 import { PowerPlant } from "../../model/PowerPlant";
 import { PowerPlantPanel } from "./PowerPlantPanel";
@@ -12,6 +12,8 @@ interface IPowerPlantPanelProps {
 
 export const PowerPlantList: React.FC<IPowerPlantPanelProps> = (props: IPowerPlantPanelProps) => {
     const [isOpen, setDialogOpen] = useState(false);
+    const selection: Selection = new Selection();
+    selection.setItems(props.powerPlants, true);
 
     const onNewPowerPlantSelected = (powerPlantPart: PowerPlantPart): void => {
         setDialogOpen(false);
@@ -22,7 +24,9 @@ export const PowerPlantList: React.FC<IPowerPlantPanelProps> = (props: IPowerPla
     };
 
     const removePowerPlant = (): void => {
-        return;
+        const selectedPowerPlants = selection.getSelection() as PowerPlant[];
+        props.onPowerPlantsModified(props.powerPlants.filter(
+            (p) => selectedPowerPlants.indexOf(p) < 0));
     };
 
     return (
@@ -45,8 +49,9 @@ export const PowerPlantList: React.FC<IPowerPlantPanelProps> = (props: IPowerPla
                     compact={true}
                     columns={buildColumns()}
                     items={props.powerPlants}
+                    onRenderItemColumn={renderItemColumn}
                     setKey="selectionKey"
-                    selectionMode={SelectionMode.single}
+                    selectionMode={SelectionMode.multiple}
                     selectionPreservedOnEmptyClick={true}
                     selection={selection}/>
             </Stack>
@@ -61,3 +66,38 @@ export const PowerPlantList: React.FC<IPowerPlantPanelProps> = (props: IPowerPla
         </>
     );
 };
+
+// tslint:disable: max-line-length
+function buildColumns(): IColumn[] {
+    const columns: IColumn[] = [];
+
+    columns.push({ key: "type", name: "Power plant", fieldName: "name", minWidth: 125, maxWidth: 200, columnActionsMode: ColumnActionsMode.clickable, isResizable: true });
+    columns.push({ key: "size", name: "Size", fieldName: "size", minWidth: 50, maxWidth: 100, columnActionsMode: ColumnActionsMode.clickable, isResizable: true });
+    columns.push({ key: "powerProduced", name: "Power", fieldName: "powerProduced", minWidth: 50, maxWidth: 100, columnActionsMode: ColumnActionsMode.clickable, isResizable: true });
+    columns.push({ key: "cost", name: "Cost", fieldName: "cost", minWidth: 50, maxWidth: 100, columnActionsMode: ColumnActionsMode.clickable, isResizable: true });
+
+    return columns;
+}
+
+function renderItemColumn(item?: any, index?: number, column?: IColumn): ReactNode {
+    if (!item || !column) {
+        return (<></>);
+    }
+
+    const powerPlant = item as PowerPlant;
+
+    switch (column.key) {
+        case "type":
+            return <span>{powerPlant.name}</span>;
+        case "size":
+            return <SpinButton
+                        defaultValue={powerPlant.size.toString()} />;
+        case "powerProduced":
+                return <span>{powerPlant.powerProduced}</span>;
+        case "cost":
+                return <span>{powerPlant.cost}</span>;
+        default:
+            return <></>;
+    }
+}
+// tslint:enable: max-line-length

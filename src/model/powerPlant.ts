@@ -1,6 +1,11 @@
+import { IObjectWithKey } from "office-ui-fabric-react";
 import { PowerPlantPart } from "./parts/PowerPlantPart";
 
-export class PowerPlant {
+export class PowerPlant implements IObjectWithKey {
+    public get name(): string {
+        return this._powerPlantPart.name;
+    }
+
     public get size(): number {
         return this._size;
     }
@@ -19,6 +24,10 @@ export class PowerPlant {
 
     public get powerProduced(): number {
         return this.size * this._powerPlantPart.powerProduced;
+    }
+
+    public get key(): string {
+        return this.name; // TODO: USE UUID
     }
 
     constructor(

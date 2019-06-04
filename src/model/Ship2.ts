@@ -1,7 +1,6 @@
 import { Armor } from "./Armor2";
 import { ArmorPart } from "./parts/ArmorPart";
 import { HullPart } from "./parts/HullPart";
-import { PowerPlantPart } from "./parts/PowerPlantPart";
 import { PowerPlant } from "./PowerPlant";
 
 export class Ship {
@@ -10,7 +9,7 @@ export class Ship {
     private _hull: HullPart | undefined = undefined;
     private _armorPart: ArmorPart | undefined = undefined;
     private _armor: Armor | undefined = undefined;
-    private _powerPlants: PowerPlant[] = []];
+    private _powerPlants: PowerPlant[] = [];
     // tslint:enable: variable-name
 
     public get name(): string | null {
