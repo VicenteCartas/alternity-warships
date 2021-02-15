@@ -1,4 +1,4 @@
-// tslint:disable-next-line:max-line-length
+// tslint:disable:max-line-length
 import { ColumnActionsMode, DetailsList, DetailsListLayoutMode, IColumn, IconButton, Modal, Selection, SelectionMode, SpinButton, Stack, StackItem } from "office-ui-fabric-react";
 import React, { ReactNode, useState } from "react";
 import { PowerPlantPart } from "../../model/parts/PowerPlantPart";
@@ -46,10 +46,9 @@ export const PowerPlantList: React.FC<IPowerPlantPanelProps> = (props: IPowerPla
                 </StackItem>
                 <DetailsList
                     layoutMode={DetailsListLayoutMode.justified}
-                    compact={true}
                     columns={buildColumns()}
                     items={props.powerPlants}
-                    onRenderItemColumn={renderItemColumn}
+                    onRenderItemColumn={(item?: any, index?: number, column?: IColumn) => renderItemColumn(item, index, column, props.onPowerPlantsModified)}
                     setKey="selectionKey"
                     selectionMode={SelectionMode.multiple}
                     selectionPreservedOnEmptyClick={true}
@@ -79,19 +78,34 @@ function buildColumns(): IColumn[] {
     return columns;
 }
 
-function renderItemColumn(item?: any, index?: number, column?: IColumn): ReactNode {
+function renderItemColumn(item?: any, index?: number, column?: IColumn, onPowerPlantsModified?: (powerPlant: PowerPlant[]) => void): ReactNode {
     if (!item || !column) {
         return (<></>);
     }
 
     const powerPlant = item as PowerPlant;
 
+    const onValueChanged = (value: string): string => {
+        const newSize: number = Number(value);
+
+        if (!isNaN(newSize)) {
+            powerPlant.size = newSize;
+            onPowerPlantsModified!([powerPlant]);
+            return value;
+        }
+
+        return powerPlant.minimumSize.toLocaleString();
+    };
+
     switch (column.key) {
         case "type":
             return <span>{powerPlant.name}</span>;
         case "size":
             return <SpinButton
-                        defaultValue={powerPlant.size.toString()} />;
+                        min={powerPlant.minimumSize}
+                        step={1}
+                        defaultValue={powerPlant.size.toString()}
+                        onValidate={(v, e) => onValueChanged(v) } />;
         case "powerProduced":
                 return <span>{powerPlant.powerProduced}</span>;
         case "cost":

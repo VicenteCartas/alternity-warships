@@ -1,9 +1,17 @@
+import { Guid } from "guid-typescript";
 import { IObjectWithKey } from "office-ui-fabric-react";
 import { PowerPlantPart } from "./parts/PowerPlantPart";
 
 export class PowerPlant implements IObjectWithKey {
+    // tslint:disable-next-line:variable-name
+    private _key: string;
+
     public get name(): string {
         return this._powerPlantPart.name;
+    }
+
+    public get minimumSize(): number {
+        return this._powerPlantPart.minimumSize;
     }
 
     public get size(): number {
@@ -27,7 +35,7 @@ export class PowerPlant implements IObjectWithKey {
     }
 
     public get key(): string {
-        return this.name; // TODO: USE UUID
+        return this._key;
     }
 
     constructor(
@@ -38,5 +46,7 @@ export class PowerPlant implements IObjectWithKey {
         if (this.size < this._powerPlantPart.minimumSize) {
             this.size = this._powerPlantPart.minimumSize;
         }
+
+        this._key = Guid.raw();
     }
 }
